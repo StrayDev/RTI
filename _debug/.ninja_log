@@ -1,0 +1,11 @@
+# ninja log v5
+2	427	6673575511923391	CMakeFiles/RTI.dir/Application.cpp.obj	8a5712def2c96daa
+2	315	6673565937815057	CMakeFiles/RTI.dir/main.cpp.obj	10e14279277fcfd
+11	273	6673566985884746	CMakeFiles/RTI.dir/Test.cpp.obj	5f3a38c22741916f
+1	141	6673575778710784	build.ninja	9f0ba8105cf6967
+3	376	6673565034115291	CMakeFiles/RTI.dir/Application/Application.cpp.obj	68ef3b839da0bc89
+427	706	6673575514677556	RTI.exe	4f7004ea8281c9d8
+3	355	6673563772087255	CMakeFiles/RTI.dir/Application/Vector3.cpp.obj	c2e064975e54e92c
+11	342	6673575511076652	CMakeFiles/RTI.dir/Vector3.cpp.obj	f45789dc09f1bce6
+2	409	6673577106402795	CMakeFiles/RTI.dir/Application.cpp.obj	8a5712def2c96daa
+409	691	6673577109178076	RTI.exe	3d2600c737d0749
