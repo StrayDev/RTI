@@ -1,12 +1,10 @@
 #include "Application.hpp"
 #include "Math.hpp"
 #include "Physics.hpp"
-#include "Tri.hpp"
-#include "Vector3.hpp"
+#include "Settings.hpp"
 
 #include <algorithm>
 #include <fstream>
-#include <vector>
 
 std::unique_ptr<Application> Application::Create()
 {
@@ -18,12 +16,23 @@ std::unique_ptr<Application> Application::Create()
 void Application::run()
 {
 	/// settings
-	const auto width = 640;
-	const auto height = 480;
 
-	double fov = 90;
-	double scale = tan(degreesToRadians(fov * 0.5f));
-	double aspectRatio = width / static_cast<double>(height);
+	auto data = Settings
+	{
+		.screenWidth = 640,
+		.screenHeight = 480,
+		.cameraPosition = { 0, 0, 0 },
+		.cameraDirection = { 0, 0, 1 },
+		.fov = 20,
+		.aspectRatio = 3.0 / 2.0,
+		.aperture = 0.1,
+		.focusDist = 10.0
+	};
+
+	//camera = std::make_unique<Camera>(data.cameraPosition, data.cameraDirection, data);
+
+	auto scale = tan(degreesToRadians(data.fov * 0.5f));
+	auto aspectRatio = data.screenWidth / static_cast<double>(data.screenHeight);
 
 	/// scene
 	auto tri = Tri();
@@ -32,20 +41,22 @@ void Application::run()
 	tri[2] = { .25, .5, -1 };
 
 	/// ray // this will change to camera
-	auto origin = Vector3{ 0, 0, 0 };
+	auto origin = data.cameraPosition;
 
-	// TODO : TEMP
-	std::cout << "P3\n"
-			  << width << " " << height << "\n255\n";
+	/// Create file
+	auto file = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
+	file << "P3\n" << data.screenWidth << " " << data.screenHeight << "\n255\n";
 
 	/// render : for each pixel
-	for (auto j = 0; j < height; ++j)
+	for (auto j = 0; j < data.screenHeight; ++j)
 	{
-		for (auto i = 0; i < width; ++i)
+		std::cerr << "\rLines remaining : " << j << std::flush;
+
+		for (auto i = 0; i < data.screenWidth; ++i)
 		{
 			/// get ray direction
-			auto x = (2 * (i + 0.5) / double(width - 1)) * aspectRatio * scale;
-			auto y = (1 - 2 * (j + 0.5) / double(height)) * scale;
+			auto x = (2 * (i + 0.5) / double(data.screenWidth - 1)) * aspectRatio * scale;
+			auto y = (1 - 2 * (j + 0.5) / double(data.screenHeight)) * scale;
 
 			auto direction = Vector3{ x, y, -1 };
 			direction = direction.normalize();
@@ -56,20 +67,21 @@ void Application::run()
 
 			if (Physics::raycast(ray, hit, tri))
 			{
-				std::cout << 255 << ' ' << 255 << ' ' << 255 << '\n';
+				file << 255 << ' ' << 255 << ' ' << 255 << '\n';
 			}
 			else
 			{
-				auto r = double(j) / (width - 1);
-				auto g = double(i) / (height - 1);
+				auto r = double(j) / (data.screenWidth - 1);
+				auto g = double(i) / (data.screenHeight - 1);
 				auto b = 0.25;
 
 				int ir = static_cast<int>(255.999 * r);
 				int ig = static_cast<int>(255.999 * g);
 				int ib = static_cast<int>(255.999 * b);
 
-				std::cout << ir << ' ' << ig << ' ' << ib << '\n';
+				file << ir << ' ' << ig << ' ' << ib << '\n';
 			}
 		}
 	}
+	std::cerr << '\n' << "Write Complete" << '\n';
 }

@@ -10,5 +10,5 @@ add_executable(
         Application.cpp
         Application.hpp
         Tri.hpp
-        Vector3.cpp Vector3.hpp Math.hpp Physics.hpp)
+        Vector3.cpp Vector3.hpp Math.hpp Physics.hpp Camera.cpp Camera.hpp Settings.hpp)
 

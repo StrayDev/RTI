@@ -67,6 +67,12 @@ build CMakeFiles/RTI.dir/Vector3.cpp.obj: CXX_COMPILER__RTI_Debug F$:/Dev/RTI/Ve
   OBJECT_DIR = CMakeFiles\RTI.dir
   OBJECT_FILE_DIR = CMakeFiles\RTI.dir
 
+build CMakeFiles/RTI.dir/Camera.cpp.obj: CXX_COMPILER__RTI_Debug F$:/Dev/RTI/Camera.cpp || cmake_object_order_depends_target_RTI
+  DEP_FILE = CMakeFiles\RTI.dir\Camera.cpp.obj.d
+  FLAGS = -g -std=gnu++2a
+  OBJECT_DIR = CMakeFiles\RTI.dir
+  OBJECT_FILE_DIR = CMakeFiles\RTI.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target RTI
@@ -75,7 +81,7 @@ build CMakeFiles/RTI.dir/Vector3.cpp.obj: CXX_COMPILER__RTI_Debug F$:/Dev/RTI/Ve
 #############################################
 # Link the executable RTI.exe
 
-build RTI.exe: CXX_EXECUTABLE_LINKER__RTI_Debug CMakeFiles/RTI.dir/main.cpp.obj CMakeFiles/RTI.dir/Application.cpp.obj CMakeFiles/RTI.dir/Vector3.cpp.obj
+build RTI.exe: CXX_EXECUTABLE_LINKER__RTI_Debug CMakeFiles/RTI.dir/main.cpp.obj CMakeFiles/RTI.dir/Application.cpp.obj CMakeFiles/RTI.dir/Vector3.cpp.obj CMakeFiles/RTI.dir/Camera.cpp.obj
   FLAGS = -g
   LINK_FLAGS = -static
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

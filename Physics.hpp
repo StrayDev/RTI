@@ -24,8 +24,10 @@ namespace Physics
 
 	class Hit
 	{
+
 	};
 
+	// Todo : compare this when inlined
 	static bool raycast(const Ray& ray, const Hit& hit, const Tri& tri)
 	{
 		/// get the plane's normal and nDot

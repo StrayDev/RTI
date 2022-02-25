@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 
+#include "Camera.hpp"
+
 class Application
 {
 public:
@@ -12,4 +14,7 @@ public:
 
 private:
 	Application() = default;
+
+private:
+	std::unique_ptr<Camera> camera { nullptr };
 };
