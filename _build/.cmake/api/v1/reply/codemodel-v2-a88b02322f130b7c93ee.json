@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"jsonFile" : "directory-.-Release-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.21"
@@ -19,7 +19,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "Release",
 			"projects" : 
 			[
 				{
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "RTI::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-RTI-Debug-9fe435f62ba3647d5438.json",
+					"jsonFile" : "target-RTI-Release-ac190143882090922b22.json",
 					"name" : "RTI",
 					"projectIndex" : 0
 				}
@@ -49,7 +49,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "F:/Dev/RTI/_debug",
+		"build" : "F:/Dev/RTI/_build",
 		"source" : "F:/Dev/RTI"
 	},
 	"version" : 

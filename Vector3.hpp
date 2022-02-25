@@ -22,6 +22,11 @@ public:
 	[[nodiscard]] double y() const { return value[1]; }
 	[[nodiscard]] double z() const { return value[2]; }
 
+	static inline double dot(const Vector3& u, const Vector3& v)
+	{
+		return u.value[0] * v.value[0] + u.value[1] * v.value[1] + u.value[2] * v.value[2];
+	}
+
 	static inline Vector3 cross(const Vector3& u, const Vector3& v)
 	{
 		return Vector3{ u.value[1] * v.value[2] - u.value[2] * v.value[1],
