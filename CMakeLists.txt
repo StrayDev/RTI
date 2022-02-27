@@ -6,18 +6,22 @@ set(CMAKE_EXE_LINKER_FLAGS "-static")
 set(CMAKE_CXX_STANDARD 20)
 
 
-add_executable( RTI main.cpp
-        Application.cpp
-        Application.hpp
-        Tri.hpp
-        Vector3.cpp
-        Vector3.hpp
-        Math.hpp
-        Physics.hpp
-        Camera.cpp
-        Camera.hpp
-        Settings.hpp
-)
+add_executable(RTI main.cpp
+        app/src/Application.cpp
+        app/include/Application.hpp
+        app/include/Tri.hpp
+        app/src/Vector3.cpp
+        app/include/Vector3.hpp
+        app/include/Math.hpp
+        app/include/Physics.hpp
+        app/src/Camera.cpp
+        app/include/Camera.hpp
+        app/include/Settings.hpp
+        )
 
+## add subdirectories
+include_directories(${CMAKE_SOURCE_DIR}/app/include)
+
+# add submodule
 add_subdirectory(${CMAKE_SOURCE_DIR}/lib/tinyobj)
 target_link_libraries(${PROJECT_NAME} PRIVATE tinyobjloader)

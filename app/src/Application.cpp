@@ -5,7 +5,7 @@
 
 #include <algorithm>
 #include <fstream>
-#include <tiny_obj_loader.h>
+#include "tiny_obj_loader.h"
 
 std::unique_ptr<Application> Application::Create()
 {

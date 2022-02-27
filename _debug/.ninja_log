@@ -1,18 +1,8 @@
 # ninja log v5
-15	607	6676824590863956	CMakeFiles/RTI.dir/Camera.cpp.obj	83b4f28c2ad14bec
-18	608	6676824590853950	CMakeFiles/RTI.dir/Vector3.cpp.obj	b503d2ecb23bfe6e
-0	710	6676824591894178	CMakeFiles/RTI.dir/Application.cpp.obj	abf926eebd7c2dda
-12	613	6676824590923966	CMakeFiles/RTI.dir/main.cpp.obj	e650d7a2cfe2dfc1
-0	317	6676825117836508	RTI.exe	38069f53ad20a25b
-1	147	6676825428449153	build.ninja	9f0ba8105cf6967
-14	617	6676825447516850	CMakeFiles/RTI.dir/Vector3.cpp.obj	6d367aa2769d7658
-17	625	6676825447586857	CMakeFiles/RTI.dir/Camera.cpp.obj	d84fd8d4c856934d
-0	629	6676825447636877	CMakeFiles/RTI.dir/main.cpp.obj	31671c24a1face17
-11	730	6676825448637097	CMakeFiles/RTI.dir/Application.cpp.obj	1b9ee13cc6e8d15f
-19	1139	6676825452718011	lib/tinyobj/CMakeFiles/tinyobjloader.dir/tiny_obj_loader.cc.obj	9f12d1ea2d3bfc07
-1139	1184	6676825453093891	lib/tinyobj/tinyobjloader.lib	2c373d0bdfc04fcf
-1184	1362	6676825454714251	RTI.exe	b8cdef7d9e1c02a2
-1	872	6676826308916266	CMakeFiles/RTI.dir/Application.cpp.obj	1b9ee13cc6e8d15f
-872	1017	6676826310176552	RTI.exe	b8cdef7d9e1c02a2
-0	872	6676827811305854	CMakeFiles/RTI.dir/Application.cpp.obj	1b9ee13cc6e8d15f
-873	1081	6676827813166271	RTI.exe	b8cdef7d9e1c02a2
+13	616	6676838723770280	CMakeFiles/RTI.dir/app/src/Camera.cpp.obj	507cc8920f85c1bb
+0	629	6676838723910314	CMakeFiles/RTI.dir/main.cpp.obj	8ac2c8e45cafffee
+15	630	6676838723920316	CMakeFiles/RTI.dir/app/src/Vector3.cpp.obj	4aad002ca6bd4d97
+17	817	6676838725790735	CMakeFiles/RTI.dir/app/src/Application.cpp.obj	951f5235bcb09ab8
+20	1130	6676838728901435	lib/tinyobj/CMakeFiles/tinyobjloader.dir/tiny_obj_loader.cc.obj	4a6e360aeacca389
+1130	1175	6676838729301524	lib/tinyobj/tinyobjloader.lib	2c373d0bdfc04fcf
+1175	1459	6676838732136406	RTI.exe	fd8dbc94669dcccd
