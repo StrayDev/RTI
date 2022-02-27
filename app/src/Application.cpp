@@ -3,9 +3,9 @@
 #include "Physics.hpp"
 #include "Settings.hpp"
 
+#include "ObjLoader.hpp"
 #include <algorithm>
 #include <fstream>
-#include "tiny_obj_loader.h"
 
 std::unique_ptr<Application> Application::Create()
 {
@@ -17,16 +17,17 @@ std::unique_ptr<Application> Application::Create()
 void Application::run()
 {
 	/// testing import of tiny obj
-	auto reader = tinyobj::ObjReader();
+	auto objloader = ObjLoader();
+	objloader.LoadObj("Cube.obj");
+	auto triList = objloader.GetTriangleList();
 
 	/// settings
-	auto data = Settings
-	{
+	auto data = Settings{
 		.screenWidth = 640,
 		.screenHeight = 480,
 		.cameraPosition = { 0, 0, 0 },
 		.cameraDirection = { 0, 0, 1 },
-		.fov = 20,
+		.fov = 40,
 		.aspectRatio = 3.0 / 2.0,
 		.aperture = 0.1,
 		.focusDist = 10.0
@@ -48,7 +49,8 @@ void Application::run()
 
 	/// Create file
 	auto file = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
-	file << "P3\n" << data.screenWidth << " " << data.screenHeight << "\n255\n";
+	file << "P3\n"
+		 << data.screenWidth << " " << data.screenHeight << "\n255\n";
 
 	/// render : for each pixel
 	for (auto j = 0; j < data.screenHeight; ++j)
@@ -86,5 +88,6 @@ void Application::run()
 			}
 		}
 	}
-	std::cerr << '\n' << "Write Complete" << '\n';
+	std::cerr << '\n'
+			  << "Write Complete" << '\n';
 }
