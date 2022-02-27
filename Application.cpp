@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <fstream>
+#include <tiny_obj_loader.h>
 
 std::unique_ptr<Application> Application::Create()
 {
@@ -15,8 +16,10 @@ std::unique_ptr<Application> Application::Create()
 
 void Application::run()
 {
-	/// settings
+	/// testing import of tiny obj
+	auto reader = tinyobj::ObjReader();
 
+	/// settings
 	auto data = Settings
 	{
 		.screenWidth = 640,
