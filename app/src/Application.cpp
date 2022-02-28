@@ -26,11 +26,11 @@ void Application::init()
 void Application::run()
 {
 	/// create the camera
-	auto camera = Camera(Vector3{ 2, 2, 5 }, Vector3{ 0, 0, 0 });/// direction not in yet
+	auto camera = Camera(Vector3{ 0, 3, 10 }, Vector3{ 0, 0, 0 });/// direction not in yet
 
 	/// testing import of tiny obj
 	auto objloader = ObjLoader();
-	objloader.LoadObj("Cube.obj");
+	objloader.LoadObj("Teapot.obj");
 	auto triList = objloader.GetTriangleList();
 
 	/// Create file
@@ -51,13 +51,10 @@ void Application::run()
 		bounding_box = AABB::MergeBounds(bounding_box, triBoundingBox);
 	}
 
-	std::cout << '\n'
-			  << bounding_box.min() << " : " << bounding_box.max() << '\n';
-
 	/// render : for each pixel
-	for (auto j = 0; j < screen_height; ++j)
+	for (auto j = screen_height; j > -1 ; --j)
 	{
-		std::cerr << "\rLines remaining : " << j << std::flush;
+		std::cerr << "\rLines remaining : " << (int)j << std::flush;
 
 		for (auto i = 0; i < screen_width; ++i)
 		{
@@ -93,6 +90,7 @@ void Application::run()
 			/// less than infinity means it hit
 			if (hit.t < infinity)
 			{
+				/// colour from normals
 				int ir = static_cast<int>(255.999 * hit.color.x());
 				int ig = static_cast<int>(255.999 * hit.color.y());
 				int ib = static_cast<int>(255.999 * hit.color.z());
@@ -101,7 +99,8 @@ void Application::run()
 			}
 			else
 			{
-				auto r = double(j) / (screen_width - 1);
+				/// visualise the base bounding box
+/*				auto r = double(j) / (screen_width - 1);
 				auto g = double(i) / (screen_height - 1);
 				auto b = 0.25;
 
@@ -109,7 +108,9 @@ void Application::run()
 				int ig = static_cast<int>(255.999 * g);
 				int ib = static_cast<int>(255.999 * b);
 
-				file << ir << ' ' << ig << ' ' << ib << '\n';
+				file << ir << ' ' << ig << ' ' << ib << '\n';*/
+
+				file << 50 << ' ' << 50 << ' ' << 50 << '\n';
 			}
 		}
 	}
