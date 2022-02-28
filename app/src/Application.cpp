@@ -4,8 +4,10 @@
 #include "Settings.hpp"
 
 #include "ObjLoader.hpp"
+#include "Timer.hpp"
 #include <algorithm>
 #include <fstream>
+#include <chrono>
 
 std::unique_ptr<Application> Application::Create()
 {
@@ -25,9 +27,9 @@ void Application::run()
 	auto data = Settings{
 		.screenWidth = 640,
 		.screenHeight = 480,
-		.cameraPosition = { 0, 0, 0 },
+		.cameraPosition = { -3, 0, 5 },
 		.cameraDirection = { 0, 0, 1 },
-		.fov = 40,
+		.fov = 60,
 		.aspectRatio = 3.0 / 2.0,
 		.aperture = 0.1,
 		.focusDist = 10.0
@@ -38,12 +40,6 @@ void Application::run()
 	auto scale = tan(degreesToRadians(data.fov * 0.5f));
 	auto aspectRatio = data.screenWidth / static_cast<double>(data.screenHeight);
 
-	/// scene
-	auto tri = Tri();
-	tri[0] = { 0, 0, -1 };
-	tri[1] = { .5, 0, -1 };
-	tri[2] = { .25, .5, -1 };
-
 	/// ray // this will change to camera
 	auto origin = data.cameraPosition;
 
@@ -51,6 +47,9 @@ void Application::run()
 	auto file = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
 	file << "P3\n"
 		 << data.screenWidth << " " << data.screenHeight << "\n255\n";
+
+	/// start timer
+	auto start = std::chrono::high_resolution_clock::now();
 
 	/// render : for each pixel
 	for (auto j = 0; j < data.screenHeight; ++j)
@@ -70,7 +69,7 @@ void Application::run()
 			auto ray = Physics::Ray(origin, direction);
 			auto hit = Physics::Hit();
 
-			if (Physics::raycast(ray, hit, tri))
+			if (Physics::raycast(ray, hit, triList))
 			{
 				file << 255 << ' ' << 255 << ' ' << 255 << '\n';
 			}
@@ -88,6 +87,8 @@ void Application::run()
 			}
 		}
 	}
-	std::cerr << '\n'
-			  << "Write Complete" << '\n';
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::seconds>( stop - start);
+
+	std::cerr << '\n' << "Write time : " << duration << '\n';
 }

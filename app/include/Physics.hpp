@@ -1,7 +1,9 @@
 #pragma once
 
+#include <vector>
+
 #include "Tri.hpp"
-#include "Vector3.hpp"
+#include "Math.hpp"
 
 namespace Physics
 {
@@ -28,46 +30,59 @@ namespace Physics
 	};
 
 	// Todo : compare this when inlined
-	static bool raycast(const Ray& ray, const Hit& hit, const Tri& tri)
+	static bool raycast(const Ray& ray, const Hit& hit, const std::vector<Tri>& triList)
 	{
-		/// get the plane's normal and nDot
-		auto normal = GetNormal(tri);
-		auto normalDirectionDot = Vector3::dot(normal, ray.getDirection());
+		/// keep track of the closest t value
+		auto closest = infinity;
 
-		/// check for parallel lines edge case
-		if (fabs(normalDirectionDot) < epsilon)
+		for(auto tri : triList)
 		{
-			return false;
+			/// get the plane's normal and nDot
+			auto normal = GetNormal(tri); //TODO : if we have the normal it will be faster
+			auto normalDirectionDot = Vector3::dot(normal, ray.getDirection());
+
+			/// check for parallel lines edge case
+			if (fabs(normalDirectionDot) < epsilon) continue;
+
+			/// get the oDot
+			auto normalOriginDot = Vector3::dot(normal, ray.getOrigin());
+
+			/// P is the point on the plane
+			/// Point = Origin + ( t * Direction )
+			auto D = -Vector3::dot(normal, tri[0]);
+			auto t = -(normalOriginDot + D) / normalDirectionDot;
+
+			/// tri is behind the ray
+			if (t < 0) continue;
+			auto P = ray.getOrigin() + t * ray.getDirection();
+
+			/// check that P is inside the triangle
+			auto edge = tri[1] - tri[0];
+			auto vp = P - tri[0];
+			auto C = Vector3::cross(edge, vp);
+			if (Vector3::dot(normal, C) < 0) continue;
+
+			edge = tri[2] - tri[1];
+			vp = P - tri[1];
+			C = Vector3::cross(edge, vp);
+			if (Vector3::dot(normal, C) < 0) continue;
+
+			edge = tri[0] - tri[2];
+			vp = P - tri[2];
+			C = Vector3::cross(edge, vp);
+			if (Vector3::dot(normal, C) < 0) continue;
+
+			/// the ray hits the triangle
+			if(t < closest)
+			{
+				closest = t;
+				///todo update hit&
+			}
 		}
 
-		/// get the oDot
-		auto normalOriginDot = Vector3::dot(normal, ray.getOrigin());
-
-		/// P is the point on the plane
-		/// Point = Origin + ( t * Direction )
-		auto D = -Vector3::dot(normal, tri[0]);
-		auto t = -(normalOriginDot + D) / normalDirectionDot;
-		if (t < 0) return false;/// tri is behind the ray
-		auto P = ray.getOrigin() + t * ray.getDirection();
-
-		/// check that P is inside the triangle
-		auto edge = tri[1] - tri[0];
-		auto vp = P - tri[0];
-		auto C = Vector3::cross(edge, vp);
-		if (Vector3::dot(normal, C) < 0) return false;
-
-		edge = tri[2] - tri[1];
-		vp = P - tri[1];
-		C = Vector3::cross(edge, vp);
-		if (Vector3::dot(normal, C) < 0) return false;
-
-		edge = tri[0] - tri[2];
-		vp = P - tri[2];
-		C = Vector3::cross(edge, vp);
-		if (Vector3::dot(normal, C) < 0) return false;
-
-		/// the ray hits the triangle
-		return true;
+		// tells us that a ray has hit
+		//std::cout << closest;
+		return closest < infinity;
 	}
 
 }// namespace Physics

@@ -1,0 +1,20 @@
+# ninja log v5
+0	707	6677437409241068	CMakeFiles/RTI.dir/main.cpp.obj	a0b37d1625d2f4b9
+18	672	6677418965171979	CMakeFiles/RTI.dir/app/src/Vector3.cpp.obj	90163b5ccb18f824
+2030	2094	6677418979375170	lib/tinyobj/tinyobjloader.lib	2c373d0bdfc04fcf
+23	2030	6677418978735013	lib/tinyobj/CMakeFiles/tinyobjloader.dir/tiny_obj_loader.cc.obj	d9d389e22061521
+16	719	6677437409361099	CMakeFiles/RTI.dir/app/src/Camera.cpp.obj	cba9af12d7bd480c
+1	2315	6677444683209878	CMakeFiles/RTI.dir/app/src/Application.cpp.obj	1a523d873fb4b2c2
+2423	2587	6677444569332461	RTI.exe	56e293241b24e932
+1	166	6677445872088235	build.ninja	9cb617b2df7e9370
+0	2475	6677445897389453	CMakeFiles/RTI.dir/app/src/Application.cpp.obj	1a523d873fb4b2c2
+0	2423	6677446573709271	CMakeFiles/RTI.dir/app/src/Application.cpp.obj	1a523d873fb4b2c2
+1	2451	6677446795884049	CMakeFiles/RTI.dir/app/src/Application.cpp.obj	1a523d873fb4b2c2
+0	2427	6677448191769549	CMakeFiles/RTI.dir/app/src/Application.cpp.obj	1a523d873fb4b2c2
+2427	2596	6677448193509938	RTI.exe	56e293241b24e932
+0	2413	6677449625893237	CMakeFiles/RTI.dir/app/src/Application.cpp.obj	1a523d873fb4b2c2
+2413	2578	6677449627581658	RTI.exe	56e293241b24e932
+0	2475	6677453646543707	CMakeFiles/RTI.dir/app/src/Application.cpp.obj	1a523d873fb4b2c2
+2476	2685	6677453648666837	RTI.exe	56e293241b24e932
+1	2453	6677455338021098	CMakeFiles/RTI.dir/app/src/Application.cpp.obj	1a523d873fb4b2c2
+2453	2626	6677455339792515	RTI.exe	56e293241b24e932

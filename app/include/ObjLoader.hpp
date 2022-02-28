@@ -4,9 +4,9 @@
 
 #define TINYOBJLOADER_IMPLEMENTATION
 
-#include "tiny_obj_loader.h"
-#include "Tri.hpp"
 #include "Math.hpp"
+#include "Tri.hpp"
+#include "tiny_obj_loader.h"
 
 using namespace tinyobj;
 
@@ -73,9 +73,6 @@ public:
 					triangleList.back()[v] = vertex;
 				}
 				index_offset += fv;
-
-				// per-face material
-				//shapes[s].mesh.material_ids[f];
 			}
 		}
 		return true;

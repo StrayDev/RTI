@@ -17,7 +17,9 @@ add_executable(RTI main.cpp
         app/src/Camera.cpp
         app/include/Camera.hpp
         app/include/Settings.hpp
-        app/include/ObjLoader.hpp)
+        app/include/ObjLoader.hpp
+        app/include/Timer.hpp
+        )
 
 ## add subdirectories
 include_directories(${CMAKE_SOURCE_DIR}/app/include)
