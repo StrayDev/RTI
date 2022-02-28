@@ -79,7 +79,15 @@ build CMakeFiles\RTI.dir\app\src\Vector3.cpp.obj: CXX_COMPILER__RTI_Debug F$:\De
   TARGET_COMPILE_PDB = CMakeFiles\RTI.dir\
   TARGET_PDB = RTI.pdb
 
-build CMakeFiles\RTI.dir\app\src\Camera.cpp.obj: CXX_COMPILER__RTI_Debug F$:\Dev\RTI\app\src\Camera.cpp || cmake_object_order_depends_target_RTI
+build CMakeFiles\RTI.dir\app\src\Tri.cpp.obj: CXX_COMPILER__RTI_Debug F$:\Dev\RTI\app\src\Tri.cpp || cmake_object_order_depends_target_RTI
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++20
+  INCLUDES = -IF:\Dev\RTI\app\include -IF:\Dev\RTI\lib\tinyobj
+  OBJECT_DIR = CMakeFiles\RTI.dir
+  OBJECT_FILE_DIR = CMakeFiles\RTI.dir\app\src
+  TARGET_COMPILE_PDB = CMakeFiles\RTI.dir\
+  TARGET_PDB = RTI.pdb
+
+build CMakeFiles\RTI.dir\app\src\AABB.cpp.obj: CXX_COMPILER__RTI_Debug F$:\Dev\RTI\app\src\AABB.cpp || cmake_object_order_depends_target_RTI
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++20
   INCLUDES = -IF:\Dev\RTI\app\include -IF:\Dev\RTI\lib\tinyobj
   OBJECT_DIR = CMakeFiles\RTI.dir
@@ -95,7 +103,7 @@ build CMakeFiles\RTI.dir\app\src\Camera.cpp.obj: CXX_COMPILER__RTI_Debug F$:\Dev
 #############################################
 # Link the executable RTI.exe
 
-build RTI.exe: CXX_EXECUTABLE_LINKER__RTI_Debug CMakeFiles\RTI.dir\main.cpp.obj CMakeFiles\RTI.dir\app\src\Application.cpp.obj CMakeFiles\RTI.dir\app\src\Vector3.cpp.obj CMakeFiles\RTI.dir\app\src\Camera.cpp.obj | lib\tinyobj\tinyobjloader.lib || lib\tinyobj\tinyobjloader.lib
+build RTI.exe: CXX_EXECUTABLE_LINKER__RTI_Debug CMakeFiles\RTI.dir\main.cpp.obj CMakeFiles\RTI.dir\app\src\Application.cpp.obj CMakeFiles\RTI.dir\app\src\Vector3.cpp.obj CMakeFiles\RTI.dir\app\src\Tri.cpp.obj CMakeFiles\RTI.dir\app\src\AABB.cpp.obj | lib\tinyobj\tinyobjloader.lib || lib\tinyobj\tinyobjloader.lib
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = -static /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = lib\tinyobj\tinyobjloader.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib

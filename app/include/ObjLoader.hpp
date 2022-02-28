@@ -10,7 +10,8 @@
 
 using namespace tinyobj;
 
-struct MeshData {
+struct MeshData
+{
 	std::vector<Vector3> vertices;
 	std::vector<unsigned short> indices;
 };
@@ -36,7 +37,7 @@ public:
 			// if not print error and return false
 			if (!reader.Error().empty())
 			{
-				std::cerr << "TinyObjReader: " << reader.Error();
+				std::cerr << "TinyObjReader: " << reader.Error() << '\n';
 			}
 			return false;
 		}
@@ -44,7 +45,7 @@ public:
 		// print warnings
 		if (!reader.Warning().empty())
 		{
-			std::cout << "TinyObjReader: " << reader.Warning();
+			std::cout << "TinyObjReader: " << reader.Warning()  << '\n';
 		}
 
 		// get vectors of data
@@ -58,20 +59,34 @@ public:
 			size_t index_offset = 0;
 			for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++)
 			{
-				triangleList.push_back(Tri());
+				//triangleList.push_back(Tri());
+				Tri::Vertices vertices;
+				Tri::Normals  normals;
 
 				size_t fv = size_t(shapes[s].mesh.num_face_vertices[f]);
 				// Loop over vertices in the face.
 				for (size_t v = 0; v < fv; v++)
 				{
-					// access to vertex
+					/// access to vertex
 					index_t idx = shapes[s].mesh.indices[index_offset + v];
 					real_t vx = attrib.vertices[3 * size_t(idx.vertex_index) + 0];
 					real_t vy = attrib.vertices[3 * size_t(idx.vertex_index) + 1];
 					real_t vz = attrib.vertices[3 * size_t(idx.vertex_index) + 2];
-					auto vertex = Vector3{ vx, vy, vz };
-					triangleList.back()[v] = vertex;
+					vertices[v] = Vector3{ vx, vy, vz };
+
+					/// Get normals negative = no normal data
+					if (idx.normal_index > -1)
+					{
+						tinyobj::real_t nx = attrib.normals[3 * size_t(idx.normal_index) + 0];
+						tinyobj::real_t ny = attrib.normals[3 * size_t(idx.normal_index) + 1];
+						tinyobj::real_t nz = attrib.normals[3 * size_t(idx.normal_index) + 2];
+						normals[v] = Vector3{ nx, ny, nz };
+					}
 				}
+
+				/// create the tri and add to the list
+				triangleList.emplace_back(Tri(vertices, normals));
+
 				index_offset += fv;
 			}
 		}

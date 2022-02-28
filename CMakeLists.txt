@@ -13,13 +13,11 @@ add_executable(RTI main.cpp
         app/src/Vector3.cpp
         app/include/Vector3.hpp
         app/include/Math.hpp
-        app/include/Physics.hpp
-        app/src/Camera.cpp
         app/include/Camera.hpp
         app/include/Settings.hpp
         app/include/ObjLoader.hpp
         app/include/Timer.hpp
-        )
+        app/include/Ray.hpp app/include/Hit.hpp app/src/Tri.cpp app/include/AABB.hpp app/src/AABB.cpp)
 
 ## add subdirectories
 include_directories(${CMAKE_SOURCE_DIR}/app/include)

@@ -1,14 +1,16 @@
 #include "Application.hpp"
+#include "AABB.hpp"
+#include "Camera.hpp"
+#include "Hit.hpp"
 #include "Math.hpp"
-#include "Physics.hpp"
+#include "ObjLoader.hpp"
+#include "Ray.hpp"
 #include "Settings.hpp"
 
-#include "ObjLoader.hpp"
-#include "Timer.hpp"
-#include <algorithm>
-#include <fstream>
 #include <chrono>
+#include <fstream>
 
+/// unique_ptr constructor replacement
 std::unique_ptr<Application> Application::Create()
 {
 	struct App : Application {
@@ -16,67 +18,91 @@ std::unique_ptr<Application> Application::Create()
 	return std::make_unique<App>();
 }
 
+/// init the app
+void Application::init()
+{
+}
+
 void Application::run()
 {
+	/// create the camera
+	auto camera = Camera(Vector3{ 2, 2, 5 }, Vector3{ 0, 0, 0 });/// direction not in yet
+
 	/// testing import of tiny obj
 	auto objloader = ObjLoader();
 	objloader.LoadObj("Cube.obj");
 	auto triList = objloader.GetTriangleList();
 
-	/// settings
-	auto data = Settings{
-		.screenWidth = 640,
-		.screenHeight = 480,
-		.cameraPosition = { -3, 0, 5 },
-		.cameraDirection = { 0, 0, 1 },
-		.fov = 60,
-		.aspectRatio = 3.0 / 2.0,
-		.aperture = 0.1,
-		.focusDist = 10.0
-	};
-
-	//camera = std::make_unique<Camera>(data.cameraPosition, data.cameraDirection, data);
-
-	auto scale = tan(degreesToRadians(data.fov * 0.5f));
-	auto aspectRatio = data.screenWidth / static_cast<double>(data.screenHeight);
-
-	/// ray // this will change to camera
-	auto origin = data.cameraPosition;
-
 	/// Create file
 	auto file = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
 	file << "P3\n"
-		 << data.screenWidth << " " << data.screenHeight << "\n255\n";
+		 << screen_width << " " << screen_height << "\n255\n";
 
 	/// start timer
 	auto start = std::chrono::high_resolution_clock::now();
 
+	/// Create outer bounding box // TODO : create tree navigation
+	AABB bounding_box{};
+	AABB triBoundingBox{};
+
+	for (auto tri : triList)
+	{
+		triBoundingBox = tri.getBoundingBox();
+		bounding_box = AABB::MergeBounds(bounding_box, triBoundingBox);
+	}
+
+	std::cout << '\n'
+			  << bounding_box.min() << " : " << bounding_box.max() << '\n';
+
 	/// render : for each pixel
-	for (auto j = 0; j < data.screenHeight; ++j)
+	for (auto j = 0; j < screen_height; ++j)
 	{
 		std::cerr << "\rLines remaining : " << j << std::flush;
 
-		for (auto i = 0; i < data.screenWidth; ++i)
+		for (auto i = 0; i < screen_width; ++i)
 		{
 			/// get ray direction
-			auto x = (2 * (i + 0.5) / double(data.screenWidth - 1)) * aspectRatio * scale;
-			auto y = (1 - 2 * (j + 0.5) / double(data.screenHeight)) * scale;
-
-			auto direction = Vector3{ x, y, -1 };
-			direction = direction.normalize();
+			auto u = static_cast<double>(i) / (screen_width - 1);
+			auto v = static_cast<double>(j) / (screen_height - 1);
 
 			/// if the ray intersects the triangle
-			auto ray = Physics::Ray(origin, direction);
-			auto hit = Physics::Hit();
+			auto ray = Ray(camera.position, camera.GetDirectionFromUV(u, v));
+			auto hit = Hit();
 
-			if (Physics::raycast(ray, hit, triList))
+			/// min and max length of the ray??? or not
+			if (!bounding_box.hit(ray, 0, 999))
 			{
-				file << 255 << ' ' << 255 << ' ' << 255 << '\n';
+				auto r = double(j) / (screen_width - 1);
+				auto g = double(i) / (screen_height - 1);
+				auto b = 0.25;
+
+				int ir = static_cast<int>(255.999 * r);
+				int ig = static_cast<int>(255.999 * g);
+				int ib = static_cast<int>(255.999 * b);
+
+				file << ir << ' ' << ig << ' ' << ib << '\n';
+				continue;
+			}
+
+			/// foreach tri check intersect and update hit
+			for (auto tri : triList)
+			{
+				tri.hit(ray, hit);
+			}
+
+			/// less than infinity means it hit
+			if (hit.t < infinity)
+			{
+				int ir = static_cast<int>(255.999 * hit.color.x());
+				int ig = static_cast<int>(255.999 * hit.color.y());
+				int ib = static_cast<int>(255.999 * hit.color.z());
+
+				file << ir << ' ' << ig << ' ' << ib << '\n';
 			}
 			else
 			{
-				auto r = double(j) / (data.screenWidth - 1);
-				auto g = double(i) / (data.screenHeight - 1);
+				auto r = double(j) / (screen_width - 1);
+				auto g = double(i) / (screen_height - 1);
 				auto b = 0.25;
 
 				int ir = static_cast<int>(255.999 * r);
@@ -88,7 +114,8 @@ void Application::run()
 		}
 	}
 	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::seconds>( stop - start);
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
-	std::cerr << '\n' << "Write time : " << duration << '\n';
+	std::cerr << '\n'
+			  << "Write time : " << duration << '\n';
 }

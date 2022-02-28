@@ -11,7 +11,7 @@
 						1
 					],
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"jsonFile" : "directory-.-Release-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.21"
@@ -26,7 +26,7 @@
 				{
 					"build" : "lib/tinyobj",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-lib.tinyobj-Debug-808c94437c6cea024d4e.json",
+					"jsonFile" : "directory-lib.tinyobj-Release-b6c8e1606f2b98ec1492.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.2"
@@ -41,7 +41,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "Release",
 			"projects" : 
 			[
 				{
@@ -78,21 +78,21 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "RTI::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-RTI-Debug-debeae0551452ea42087.json",
+					"jsonFile" : "target-RTI-Release-14dd884f4d3da1f66081.json",
 					"name" : "RTI",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "tinyobjloader::@14aba6d558ae1466aa44",
-					"jsonFile" : "target-tinyobjloader-Debug-78b7a2bd23a94b0853a4.json",
+					"jsonFile" : "target-tinyobjloader-Release-e19763f5640e71aea8d5.json",
 					"name" : "tinyobjloader",
 					"projectIndex" : 1
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "uninstall::@14aba6d558ae1466aa44",
-					"jsonFile" : "target-uninstall-Debug-4a1a3d5b0c8c930e1d94.json",
+					"jsonFile" : "target-uninstall-Release-bc23d50f7f5578e39e74.json",
 					"name" : "uninstall",
 					"projectIndex" : 1
 				}
@@ -102,7 +102,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "F:/Dev/RTI/_debug",
+		"build" : "F:/Dev/RTI/_build",
 		"source" : "F:/Dev/RTI"
 	},
 	"version" : 

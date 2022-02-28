@@ -4,17 +4,29 @@
 
 #include "Vector3.hpp"
 
-using Tri = std::array<Vector3, 3>;
+struct Hit;
+class AABB;
+class Ray;
 
-inline Vector3 GetNormal(const Tri& tri)
+class Tri
 {
-	/// get the vectors from point 0 to point 1 and 2
-	auto a = tri[1] - tri[0];
-	auto b = tri[2] - tri[0];
+public:
+	using Normals = std::array<Vector3, 3>;
+	using Vertices = std::array<Vector3, 3>;
 
-	/// the cross product is the triangles normal
-	auto c = Vector3::cross(a, b);
+public:
+	Tri(Vertices v, Normals n) : vertices(v), normals(n) {}
+	~Tri() = default;
 
-	/// convert to a unit vector and return
-	return c.normalize();
-}
+public:
+	bool hit(const Ray& ray, Hit& hit);
+	const AABB getBoundingBox();
+
+	inline Vertices& GetVertices() { return vertices; }
+	inline Normals& GetNormals() { return normals; }
+	inline Vector3 GetFaceNormal() { return (normals[0] + normals[1] + normals[2]) / 3; }
+
+private:
+	Normals normals;  /// i want to store this in contiguous memory...
+	Vertices vertices;/// i want to store this in contiguous memory...
+};

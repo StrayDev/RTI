@@ -1,8 +1,6 @@
 #pragma once
 #include <memory>
 
-#include "Camera.hpp"
-
 class Application
 {
 public:
@@ -10,11 +8,13 @@ public:
 	~Application() = default;
 
 public:
+	void init();
 	void run();
 
 private:
 	Application() = default;
 
 private:
-	std::unique_ptr<Camera> camera { nullptr };
+	const double screen_width = 1920.f / 4.f;
+	const double screen_height = 1080.f / 4.f;
 };
