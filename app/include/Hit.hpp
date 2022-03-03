@@ -2,7 +2,8 @@
 
 #include "Math.hpp"
 
-struct Hit {
+struct Hit
+{
 	double t = infinity;
 	Vector3 color;
 };

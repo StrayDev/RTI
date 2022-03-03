@@ -26,12 +26,14 @@ void Application::init()
 void Application::run()
 {
 	/// create the camera
-	auto camera = Camera(Vector3{ 0, 3, 10 }, Vector3{ 0, 0, 0 });/// direction not in yet
+	auto camera = Camera(Vector3{ 0, 3, 6 }, Vector3{ 0, 0, 0 });/// direction not in yet
 
 	/// testing import of tiny obj
 	auto objloader = ObjLoader();
 	objloader.LoadObj("Teapot.obj");
 	auto triList = objloader.GetTriangleList();
+
+	// TODO : append triangles to list, or separate into objects and then check per object?
 
 	/// Create file
 	auto file = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
@@ -41,7 +43,7 @@ void Application::run()
 	/// start timer
 	auto start = std::chrono::high_resolution_clock::now();
 
-	/// Create outer bounding box // TODO : create tree navigation
+	/// Create outer bounding box // TODO : should this be done during mesh creation?
 	AABB bounding_box{};
 	AABB triBoundingBox{};
 
@@ -66,7 +68,7 @@ void Application::run()
 			auto ray = Ray(camera.position, camera.GetDirectionFromUV(u, v));
 			auto hit = Hit();
 
-			/// min and max length of the ray??? or not
+			/// check for ray aabb collision
 			if (!bounding_box.hit(ray, 0, 999))
 			{
 				auto r = double(j) / (screen_width - 1);
@@ -100,7 +102,7 @@ void Application::run()
 			else
 			{
 				/// visualise the base bounding box
-/*				auto r = double(j) / (screen_width - 1);
+				/*auto r = double(j) / (screen_width - 1);
 				auto g = double(i) / (screen_height - 1);
 				auto b = 0.25;
 
