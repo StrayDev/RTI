@@ -57,7 +57,6 @@ void Application::run()
 
 	auto root_node = BVHNode(triList);
 
-
 	/// render : for each pixel
 	for (int j = static_cast<int>(screen_height); j > -1 ; --j)
 	{

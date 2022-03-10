@@ -18,10 +18,13 @@ private:
 	leftRightSplit CreateSplitLists(int axis, const std::vector<Tri>& list);
 
 private:
-	AABB bounds;
+	/// 8 is arbitrary
+	const int max_tris = 8;
 
-	int num_tris{};
-	std::vector<Tri*> tris;
+	AABB bounds;
+	bool is_leaf { false };
+	int num_tris { 0 };
+	std::vector<Tri*> tris {};
 
 	std::unique_ptr<BVHNode> left{ nullptr };
 	std::unique_ptr<BVHNode> right{ nullptr };
@@ -30,9 +33,16 @@ private:
 BVHNode::BVHNode(const std::vector<Tri>& triangleList)
 {
 	CreateBounds(triangleList);
-	if (triangleList.size() < 8)/// 8 is arbitrary
+
+	if (triangleList.size() < max_tris + 1)
 	{
 		/// make leaf node
+		is_leaf = true;
+		num_tris = static_cast<int>(triangleList.size());
+		for(auto tri : triangleList)
+		{
+			tris.push_back(&tri);
+		}
 		return;
 	}
 	/// find out how to split the axis
