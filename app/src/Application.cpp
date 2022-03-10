@@ -34,9 +34,6 @@ void Application::run()
 	objloader.LoadObj("bunny.obj");
 	auto triList = objloader.GetTriangleList();
 
-	// TODO : append triangles to list, or separate into objects and then check per object?
-
-
 	/// Create file
 	auto file = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
 	file << "P3\n"
@@ -46,8 +43,8 @@ void Application::run()
 	auto start = std::chrono::high_resolution_clock::now();
 
 	/// Create outer bounding box // TODO : should this be done during mesh creation?
-	AABB bounding_box{};
-	AABB triBoundingBox{};
+	AABB bounding_box {};
+	AABB triBoundingBox {};
 
 	/// todo : build tree
 	// build root node
@@ -58,7 +55,7 @@ void Application::run()
 		bounding_box = AABB::MergeBounds(bounding_box, tri.GetBoundingBox());
 	}
 
-	auto root = BVHNode(bounding_box);
+	auto root_node = BVHNode(triList);
 
 
 	/// render : for each pixel
@@ -93,11 +90,15 @@ void Application::run()
 			if (hit.t < infinity)
 			{
 				/// colour from normals
-/*				int ir = static_cast<int>(255.999 * hit.color.x());
+				int ir = static_cast<int>(255.999 * hit.color.x());
 				int ig = static_cast<int>(255.999 * hit.color.y());
 				int ib = static_cast<int>(255.999 * hit.color.z());
-				file << ir << ' ' << ig << ' ' << ib << '\n';*/
-				file << 50 << ' ' << 10 << ' ' << 10 << '\n';
+				if (hit.color.x() != hit.color.x() || hit.color.y() != hit.color.y() || hit.color.z() != hit.color.z()){
+
+
+				}
+				file << ir << ' ' << ig << ' ' << ib << '\n';
+				//file << 50 << ' ' << 10 << ' ' << 10 << '\n';
 			}
 			else
 			{

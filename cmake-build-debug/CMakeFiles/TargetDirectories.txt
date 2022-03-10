@@ -1,0 +1,13 @@
+C:/Users/steve/Desktop/RTI/cmake-build-debug/CMakeFiles/list_install_components.dir
+C:/Users/steve/Desktop/RTI/cmake-build-debug/CMakeFiles/RTI.dir
+C:/Users/steve/Desktop/RTI/cmake-build-debug/CMakeFiles/install/local.dir
+C:/Users/steve/Desktop/RTI/cmake-build-debug/CMakeFiles/install.dir
+C:/Users/steve/Desktop/RTI/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/steve/Desktop/RTI/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/steve/Desktop/RTI/cmake-build-debug/lib/tinyobj/CMakeFiles/tinyobjloader.dir
+C:/Users/steve/Desktop/RTI/cmake-build-debug/lib/tinyobj/CMakeFiles/uninstall.dir
+C:/Users/steve/Desktop/RTI/cmake-build-debug/lib/tinyobj/CMakeFiles/install/local.dir
+C:/Users/steve/Desktop/RTI/cmake-build-debug/lib/tinyobj/CMakeFiles/install.dir
+C:/Users/steve/Desktop/RTI/cmake-build-debug/lib/tinyobj/CMakeFiles/edit_cache.dir
+C:/Users/steve/Desktop/RTI/cmake-build-debug/lib/tinyobj/CMakeFiles/rebuild_cache.dir
+C:/Users/steve/Desktop/RTI/cmake-build-debug/lib/tinyobj/CMakeFiles/list_install_components.dir

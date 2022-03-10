@@ -14,6 +14,7 @@ public:
 		centre = maximum - minimum;
 	}
 
+	[[nodiscard]] Vector3 extents() const { return centre / 2; }
 	[[nodiscard]] Vector3 mid() const { return centre; }
 	[[nodiscard]] Vector3 min() const { return minimum; }
 	[[nodiscard]] Vector3 max() const { return maximum; }
