@@ -14,6 +14,8 @@ public:
 private:
 	Application() = default;
 
+	void DrawBackground(std::ofstream& file, int i, int j);
+
 private:
 	const double screen_width = 1920.f / 4.f;
 	const double screen_height = 1080.f / 4.f;

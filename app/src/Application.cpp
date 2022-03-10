@@ -6,6 +6,7 @@
 #include "ObjLoader.hpp"
 #include "Ray.hpp"
 #include "Settings.hpp"
+#include "BVHNode.hpp"
 
 #include <chrono>
 #include <fstream>
@@ -26,14 +27,15 @@ void Application::init()
 void Application::run()
 {
 	/// create the camera
-	auto camera = Camera(Vector3{ 0, 3, 6 }, Vector3{ 0, 0, 0 });/// direction not in yet
+	auto camera = Camera(Vector3{ 0, 1, 2 }, Vector3{ 0, 0, 0 });/// direction not in yet
 
 	/// testing import of tiny obj
 	auto objloader = ObjLoader();
-	objloader.LoadObj("Teapot.obj");
+	objloader.LoadObj("bunny.obj");
 	auto triList = objloader.GetTriangleList();
 
 	// TODO : append triangles to list, or separate into objects and then check per object?
+
 
 	/// Create file
 	auto file = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
@@ -47,16 +49,22 @@ void Application::run()
 	AABB bounding_box{};
 	AABB triBoundingBox{};
 
+	/// todo : build tree
+	// build root node
+	// split
+
 	for (auto tri : triList)
 	{
-		triBoundingBox = tri.getBoundingBox();
-		bounding_box = AABB::MergeBounds(bounding_box, triBoundingBox);
+		bounding_box = AABB::MergeBounds(bounding_box, tri.GetBoundingBox());
 	}
 
+	auto root = BVHNode(bounding_box);
+
+
 	/// render : for each pixel
-	for (auto j = screen_height; j > -1 ; --j)
+	for (int j = static_cast<int>(screen_height); j > -1 ; --j)
 	{
-		std::cerr << "\rLines remaining : " << (int)j << std::flush;
+		std::cerr << "\rLines remaining : " << j << std::flush;
 
 		for (auto i = 0; i < screen_width; ++i)
 		{
@@ -71,15 +79,7 @@ void Application::run()
 			/// check for ray aabb collision
 			if (!bounding_box.hit(ray, 0, 999))
 			{
-				auto r = double(j) / (screen_width - 1);
-				auto g = double(i) / (screen_height - 1);
-				auto b = 0.25;
-
-				int ir = static_cast<int>(255.999 * r);
-				int ig = static_cast<int>(255.999 * g);
-				int ib = static_cast<int>(255.999 * b);
-
-				file << ir << ' ' << ig << ' ' << ib << '\n';
+				DrawBackground(file, i , j);
 				continue;
 			}
 
@@ -93,26 +93,17 @@ void Application::run()
 			if (hit.t < infinity)
 			{
 				/// colour from normals
-				int ir = static_cast<int>(255.999 * hit.color.x());
+/*				int ir = static_cast<int>(255.999 * hit.color.x());
 				int ig = static_cast<int>(255.999 * hit.color.y());
 				int ib = static_cast<int>(255.999 * hit.color.z());
-
-				file << ir << ' ' << ig << ' ' << ib << '\n';
+				file << ir << ' ' << ig << ' ' << ib << '\n';*/
+				file << 50 << ' ' << 10 << ' ' << 10 << '\n';
 			}
 			else
 			{
+				DrawBackground(file, i , j);
 				/// visualise the base bounding box
-				/*auto r = double(j) / (screen_width - 1);
-				auto g = double(i) / (screen_height - 1);
-				auto b = 0.25;
-
-				int ir = static_cast<int>(255.999 * r);
-				int ig = static_cast<int>(255.999 * g);
-				int ib = static_cast<int>(255.999 * b);
-
-				file << ir << ' ' << ig << ' ' << ib << '\n';*/
-
-				file << 50 << ' ' << 50 << ' ' << 50 << '\n';
+				//file << 50 << ' ' << 50 << ' ' << 50 << '\n';
 			}
 		}
 	}
@@ -121,4 +112,17 @@ void Application::run()
 
 	std::cerr << '\n'
 			  << "Write time : " << duration << '\n';
+}
+
+void Application::DrawBackground(std::ofstream& file, int i, int j)
+{
+	auto r = double(j) / (screen_width - 1);
+	auto g = double(i) / (screen_height - 1);
+	auto b = 0.25;
+
+	int ir = static_cast<int>(255.999 * r);
+	int ig = static_cast<int>(255.999 * g);
+	int ib = static_cast<int>(255.999 * b);
+
+	file << ir << ' ' << ig << ' ' << ib << '\n';
 }

@@ -17,7 +17,7 @@ add_executable(RTI main.cpp
         app/include/Settings.hpp
         app/include/ObjLoader.hpp
         app/include/Timer.hpp
-        app/include/Ray.hpp app/include/Hit.hpp app/src/Tri.cpp app/include/AABB.hpp app/src/AABB.cpp)
+        app/include/Ray.hpp app/include/Hit.hpp app/src/Tri.cpp app/include/AABB.hpp app/src/AABB.cpp app/include/BVHNode.hpp)
 
 ## add subdirectories
 include_directories(${CMAKE_SOURCE_DIR}/app/include)

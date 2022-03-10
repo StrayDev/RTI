@@ -1,6 +1,5 @@
 #include "Tri.hpp"
 
-#include "AABB.hpp"
 #include "Hit.hpp"
 #include "Math.hpp"
 #include "Ray.hpp"
@@ -54,7 +53,7 @@ bool Tri::hit(const Ray& ray, Hit& hit)
 	return true;
 }
 
-const AABB Tri::getBoundingBox() /// this seems really slow
+const AABB Tri::CreateAABB() /// this seems really slow
 {
 	auto small = Vector3{
 		fmin(vertices[0].x(), fmin(vertices[1].x(), vertices[2].x())),

@@ -11,8 +11,10 @@ public:
 	{
 		minimum = a;
 		maximum = b;
+		centre = maximum - minimum;
 	}
 
+	[[nodiscard]] Vector3 mid() const { return centre; }
 	[[nodiscard]] Vector3 min() const { return minimum; }
 	[[nodiscard]] Vector3 max() const { return maximum; }
 
@@ -21,7 +23,7 @@ public:
 public:
 	static AABB MergeBounds(AABB box1, AABB box2);
 
-
+	Vector3 centre;
 	Vector3 minimum;
 	Vector3 maximum;
 };
