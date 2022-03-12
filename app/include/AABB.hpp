@@ -11,11 +11,12 @@ public:
 	{
 		minimum = a;
 		maximum = b;
-		centre = maximum - minimum;
+		mid = (a + b) / 2;
+		extent = ( b - a ) / 2;
 	}
 
-	[[nodiscard]] Vector3 extents() const { return centre / 2; }
-	[[nodiscard]] Vector3 mid() const { return centre; }
+	[[nodiscard]] Vector3 extents() const { return extent; }
+	[[nodiscard]] Vector3 midpoint() const { return mid; }
 	[[nodiscard]] Vector3 min() const { return minimum; }
 	[[nodiscard]] Vector3 max() const { return maximum; }
 
@@ -24,7 +25,8 @@ public:
 public:
 	static AABB MergeBounds(AABB box1, AABB box2);
 
-	Vector3 centre;
+	Vector3 mid;
+	Vector3 extent;
 	Vector3 minimum;
 	Vector3 maximum;
 };

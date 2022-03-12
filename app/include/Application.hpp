@@ -1,5 +1,9 @@
 #pragma once
 #include <memory>
+#include <vector>
+
+class Tri;
+class Camera;
 
 class Application
 {
@@ -14,9 +18,11 @@ public:
 private:
 	Application() = default;
 
+	void RenderBasic(const std::vector<Tri>& tri_list, const Camera& camera);
+
 	void DrawBackground(std::ofstream& file, int i, int j);
 
 private:
-	const double screen_width = 1920.f / 4.f;
-	const double screen_height = 1080.f / 4.f;
+	const int screen_width = 1920 / 4;
+	const int screen_height = 1080 / 4;
 };

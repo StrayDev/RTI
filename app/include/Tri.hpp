@@ -23,9 +23,9 @@ public:
 
 public:
 	bool hit(const Ray& ray, Hit& hit);
-	const AABB CreateAABB();
+	AABB CreateAABB();
 
-	inline AABB& GetBoundingBox() { return bounding_box; }
+	inline const AABB& GetAABB() const { return bounding_box; }
 	inline Vertices& GetVertices() { return vertices; }
 	inline Normals& GetNormals() { return normals; }
 	inline Vector3 GetFaceNormal() { return (normals[0] + normals[1] + normals[2]) / 3; }

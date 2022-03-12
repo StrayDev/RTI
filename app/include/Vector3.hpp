@@ -34,6 +34,14 @@ public:
 						u.value[0] * v.value[1] - u.value[1] * v.value[0] };
 	}
 
+	static inline Vector3 findMidPoint(const Vector3& v1, const Vector3& v2)
+	{
+		double mid_x = (v1.x() + v2.x()) / 2.f;
+		double mid_y = (v1.y() + v2.y()) / 2.f;
+		double mid_z = (v1.z() + v2.z()) / 2.f;
+		return {mid_x, mid_y, mid_z };
+	}
+
 	[[nodiscard]] inline double length() const;
 	[[nodiscard]] inline double lengthSquared() const;
 

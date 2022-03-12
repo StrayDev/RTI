@@ -1,12 +1,12 @@
 #include "Application.hpp"
 #include "AABB.hpp"
+#include "BVHNode.hpp"
 #include "Camera.hpp"
 #include "Hit.hpp"
 #include "Math.hpp"
 #include "ObjLoader.hpp"
 #include "Ray.hpp"
 #include "Settings.hpp"
-#include "BVHNode.hpp"
 
 #include <chrono>
 #include <fstream>
@@ -26,39 +26,33 @@ void Application::init()
 
 void Application::run()
 {
+	/// start timer
+	auto start = std::chrono::high_resolution_clock::now();
+
 	/// create the camera
 	auto camera = Camera(Vector3{ 0, 1, 2 }, Vector3{ 0, 0, 0 });/// direction not in yet
 
 	/// testing import of tiny obj
 	auto objloader = ObjLoader();
-	objloader.LoadObj("bunny.obj");
+	objloader.LoadObj("Teapot.obj");
 	auto triList = objloader.GetTriangleList();
+
+	std::cout << "Number of triangles : " << triList.size() << '\n';
+
+	/// old method
+	//RenderBasic(triList, camera);
+
+	/// build the BVH
+	auto root_node = BVHNode(triList);
+
+	return;
 
 	/// Create file
 	auto file = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
-	file << "P3\n"
-		 << screen_width << " " << screen_height << "\n255\n";
-
-	/// start timer
-	auto start = std::chrono::high_resolution_clock::now();
-
-	/// Create outer bounding box // TODO : should this be done during mesh creation?
-	AABB bounding_box {};
-	AABB triBoundingBox {};
-
-	/// todo : build tree
-	// build root node
-	// split
-
-	for (auto tri : triList)
-	{
-		bounding_box = AABB::MergeBounds(bounding_box, tri.GetBoundingBox());
-	}
-
-	auto root_node = BVHNode(triList);
+	file << "P3\n" << screen_width << " " << screen_height << "\n255\n";
 
 	/// render : for each pixel
-	for (int j = static_cast<int>(screen_height); j > -1 ; --j)
+	for (int j = screen_height; j > -1; --j)
 	{
 		std::cerr << "\rLines remaining : " << j << std::flush;
 
@@ -72,15 +66,63 @@ void Application::run()
 			auto ray = Ray(camera.position, camera.GetDirectionFromUV(u, v));
 			auto hit = Hit();
 
+			/// bvh
+			//auto triangles = root_node.hit(ray, hit);
+			if (hit.t == infinity) DrawBackground(file, i, j);
+			else DrawBackground(file, j, i);
+		}
+	}
+
+
+
+	/// stop the timer and print result
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+	std::cerr << '\n'
+			  << "Write time : " << duration << '\n';
+}
+
+void Application::RenderBasic(const std::vector<Tri>& tri_list, const Camera& camera)
+{
+	/// Create file
+	auto file = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
+	file << "P3\n"
+		 << screen_width << " " << screen_height << "\n255\n";
+
+	/// Create outer bounding box // TODO : should this be done during mesh creation?
+	AABB bounding_box{};
+	AABB triBoundingBox{};
+
+	/// this will be removed
+	for (auto tri : tri_list)
+	{
+		bounding_box = AABB::MergeBounds(bounding_box, tri.GetAABB());
+	}
+
+	/// render : for each pixel
+	for (int j = static_cast<int>(screen_height); j > -1; --j)
+	{
+		std::cerr << "\rLines remaining : " << j << std::flush;
+
+		for (int i = 0; i < screen_width; ++i)
+		{
+			/// get ray direction
+			auto u = static_cast<double>(i) / (screen_width - 1);
+			auto v = static_cast<double>(j) / (screen_height - 1);
+
+			/// if the ray intersects the triangle
+			auto ray = Ray(camera.position, camera.GetDirectionFromUV(u, v));
+			auto hit = Hit();
+
 			/// check for ray aabb collision
 			if (!bounding_box.hit(ray, 0, 999))
 			{
-				DrawBackground(file, i , j);
+				DrawBackground(file, i, j);
 				continue;
 			}
 
 			/// foreach tri check intersect and update hit
-			for (auto tri : triList)
+			for (auto tri : tri_list)
 			{
 				tri.hit(ray, hit);
 			}
@@ -92,26 +134,20 @@ void Application::run()
 				int ir = static_cast<int>(255.999 * hit.color.x());
 				int ig = static_cast<int>(255.999 * hit.color.y());
 				int ib = static_cast<int>(255.999 * hit.color.z());
-				if (hit.color.x() != hit.color.x() || hit.color.y() != hit.color.y() || hit.color.z() != hit.color.z()){
-
-
+				if (hit.color.x() != hit.color.x() || hit.color.y() != hit.color.y() || hit.color.z() != hit.color.z())
+				{
 				}
 				file << ir << ' ' << ig << ' ' << ib << '\n';
 				//file << 50 << ' ' << 10 << ' ' << 10 << '\n';
 			}
 			else
 			{
-				DrawBackground(file, i , j);
+				DrawBackground(file, i, j);
 				/// visualise the base bounding box
 				//file << 50 << ' ' << 50 << ' ' << 50 << '\n';
 			}
 		}
 	}
-	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-
-	std::cerr << '\n'
-			  << "Write time : " << duration << '\n';
 }
 
 void Application::DrawBackground(std::ofstream& file, int i, int j)

@@ -2,6 +2,7 @@
 
 #include "AABB.hpp"
 #include "Tri.hpp"
+#include "Math.hpp"
 
 class BVHNode
 {
@@ -9,10 +10,12 @@ public:
 	explicit BVHNode(const std::vector<Tri>& triangleList);
 	~BVHNode() = default;
 
-private:
-	void CreateBounds(std::vector<Tri> triangleList);
+	//bool hit(const Ray& ray, Hit& hit);
 
-	int GetGreatestAxis(const Vector3& extents);/// 0 = x, 1 = y, 2 = z
+private:
+	void CreateBounds(const std::vector<Tri>& triangleList);
+	void makeLeaf(const std::vector<Tri>& triangleList);
+	static int GetGreatestAxis(const Vector3& extents);/// 0 = x, 1 = y, 2 = z
 
 	using leftRightSplit = std::tuple<std::vector<Tri>, std::vector<Tri>>;
 	leftRightSplit CreateSplitLists(int axis, const std::vector<Tri>& list);
@@ -22,56 +25,72 @@ private:
 	const int max_tris = 8;
 
 	AABB bounds;
-	bool is_leaf { false };
-	int num_tris { 0 };
-	std::vector<Tri*> tris {};
+	bool is_leaf{ false };
+	int num_tris{ 0 };
+	std::vector<Tri*> tris{};
 
-	std::unique_ptr<BVHNode> left{ nullptr };
-	std::unique_ptr<BVHNode> right{ nullptr };
+	BVHNode* left { nullptr };
+	BVHNode* right { nullptr };
 };
 
 BVHNode::BVHNode(const std::vector<Tri>& triangleList)
 {
+	/// create the bounds
 	CreateBounds(triangleList);
 
-	if (triangleList.size() < max_tris + 1)
+	/// create if node
+	if (triangleList.size() <= max_tris)
 	{
-		/// make leaf node
-		is_leaf = true;
-		num_tris = static_cast<int>(triangleList.size());
-		for(auto tri : triangleList)
-		{
-			tris.push_back(&tri);
-		}
+		makeLeaf(triangleList);
 		return;
 	}
+
 	/// find out how to split the axis
 	auto axis = GetGreatestAxis(bounds.extents());
+	auto [left_list, right_list] = CreateSplitLists(axis, triangleList);
 
-	/// sort into left and right list
-	auto [leftList, rightList] = CreateSplitLists(axis, triangleList);
+	/// catch one sided loop
+	if(left_list.empty() || right_list.empty())
+	{
+		std::cout << "Could not separate : " << left_list.size() << ' ' << right_list.size() << '\n';
+		makeLeaf(triangleList);
+		return;
+	}
 
 	/// recurse
-	left = std::make_unique<BVHNode>(leftList);
-	right = std::make_unique<BVHNode>(rightList);
+	left = new BVHNode(left_list);
+	right = new BVHNode(right_list);
 }
 
-void BVHNode::CreateBounds(std::vector<Tri> triangleList)
+void BVHNode::makeLeaf(const std::vector<Tri>& triangleList)
 {
-	/// initialise menber bounding box
-	bounds = AABB();
+	/// make leaf node
+	is_leaf = true;
+	num_tris = static_cast<int>(triangleList.size());
+	for (auto tri : triangleList)
+	{
+		tris.push_back(&tri);
+	}
+}
+
+void BVHNode::CreateBounds(const std::vector<Tri>& triangleList)
+{
 	/// create bounding box for all the triangles in the list
+	bounds = triangleList.back().GetAABB();
 	for (auto t : triangleList)
 	{
-		bounds = AABB::MergeBounds(bounds, t.GetBoundingBox());
+		bounds = AABB::MergeBounds(bounds, t.GetAABB());
 	}
 }
 
 int BVHNode::GetGreatestAxis(const Vector3& extents)
 {
-	auto dominant_x = extents.x() > extents.y() && extents.x() > extents.z();
-	if (dominant_x) return 0;
-	return extents.y() > extents.z() ? 1 : 2;
+	auto x_abs = fabs(extents.x());
+	auto y_abs = fabs(extents.y());
+	auto z_abs = fabs(extents.z());
+
+	if (x_abs > y_abs && x_abs > z_abs) return 0;
+	return y_abs > z_abs ? 1 : 2;
 }
 
 BVHNode::leftRightSplit BVHNode::CreateSplitLists(int axis, const std::vector<Tri>& list)
@@ -80,16 +99,50 @@ BVHNode::leftRightSplit BVHNode::CreateSplitLists(int axis, const std::vector<Tr
 	std::vector<Tri> left_list{};
 	std::vector<Tri> right_list{};
 
-	/// check if the centre position is greater or lower than the mid point
+	/// store the midpoint
+	auto midpoint = bounds.midpoint().value[axis];
+
+	/// todo remove
+	auto left_max = -9999.f;
+	auto right_min = 9999.f;
+
+	/// check if the mid position is greater or lower than the mid point
 	for (auto tri : list)
 	{
-		if (tri.GetBoundingBox().mid().value[axis] < bounds.mid().value[axis])
+		auto triMidpoint = tri.GetAABB().midpoint().value[axis];
+
+		if ( triMidpoint <= midpoint - epsilon )
 		{
+			left_max = triMidpoint > left_max ? triMidpoint : left_max;
 			left_list.push_back(tri);
 			continue;
 		}
-		right_list.push_back(tri);
+
+		if (triMidpoint > midpoint - epsilon )
+		{
+			right_min = triMidpoint < right_min ? triMidpoint : right_min;
+			right_list.push_back(tri);
+		}
 	}
+/*	std::cout << "Midpoint : " << midpoint << '\n';
+	std::cout << "Left : " << left_max << '\n';
+	std::cout << "Right : " << right_min << '\n';
+	std::cout << "L : " << left_list.size() << ", R : " << right_list.size() << ", Axis : " << axis << '\n';*/
 
 	return { left_list, right_list };
 }
+
+/*bool BVHNode::hit(const Ray& ray, Hit& hit)
+{
+	if( !bounds.hit(ray, 0, 999) ) return false;
+
+	if(is_leaf)
+	{
+		/// somehow pass out the triangles in the leaf
+		return true;
+	}
+
+	auto left_hit = left->hit(ray, hit);
+	auto right_hit = right->hit(ray, hit);
+	return left || right;
+}*/

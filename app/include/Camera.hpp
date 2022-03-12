@@ -11,7 +11,7 @@ public:
 	Camera(const Vector3& pos, const Vector3& dir) : position(pos), direction(dir) {}
 	~Camera() = default;
 
-	Vector3 GetDirectionFromUV(double u, double v) { return lower_left_corner + u * horizontal + v * vertical - position; }
+	Vector3 GetDirectionFromUV(double u, double v) const { return lower_left_corner + u * horizontal + v * vertical - position; }
 
 	const Vector3 position;
 	const Vector3 direction; // not currently used
