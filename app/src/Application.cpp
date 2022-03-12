@@ -30,12 +30,17 @@ void Application::run()
 	auto start = std::chrono::high_resolution_clock::now();
 
 	/// create the camera
-	auto camera = Camera(Vector3{ 0, 1, 1.5 }, Vector3{ 0, 0, 1 });/// direction not in yet
+	auto camera = Camera(Vector3{ 0, 1, 2 }, Vector3{ 0, 0, 1 });/// direction not in yet
 
 	/// testing import of tiny obj
 	auto objloader = ObjLoader();
-	objloader.LoadObj("bunny.obj");
-	auto triList = objloader.GetTriangleList();
+	objloader.LoadObj("bunny.obj", "bunny");
+	auto bunny_1 = objloader.CreateObject("bunny", {0, 0,0 });
+	auto triList = bunny_1->triangles;
+
+	std::cout << triList[0].GetVertices()[0] << '\n';
+
+	//auto triList = objloader.GetTriangleList();
 
 	/// render methods
 	//RenderBasic(triList, camera);

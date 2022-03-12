@@ -10,10 +10,17 @@
 
 using namespace tinyobj;
 
-struct MeshData
+class Object
 {
-	std::vector<Vector3> vertices;
-	std::vector<unsigned short> indices;
+public:
+	Object()
+	{
+
+	}
+
+	AABB aabb;
+	Vector3 position;
+	std::vector<Tri> triangles;
 };
 
 class ObjLoader
@@ -22,16 +29,13 @@ public:
 	ObjLoader() = default;
 	~ObjLoader() = default;
 
-	bool LoadObj(std::string path)
+	bool LoadObj(std::string path, std::string name)
 	{
-		// create needed objects
 		auto reader = ObjReader{};
 		auto reader_config = ObjReaderConfig{};
 
-		// set the path to the material folder
 		reader_config.mtl_search_path = "./";
 
-		// try to read the file
 		if (!reader.ParseFromFile(path, reader_config))
 		{
 			// if not print error and return false
@@ -42,7 +46,6 @@ public:
 			return false;
 		}
 
-		// print warnings
 		if (!reader.Warning().empty())
 		{
 			std::cout << "TinyObjReader: " << reader.Warning()  << '\n';
@@ -53,39 +56,37 @@ public:
 		auto& shapes = reader.GetShapes();
 
 		// Loop over shapes
-		for (size_t s = 0; s < shapes.size(); s++)
+		for (const auto& shape : shapes)
 		{
-			// Loop over faces(polygon)
-			size_t index_offset = 0;
-			for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++)
+			auto index_offset = 0;
+			for (auto f = 0; f < shape.mesh.num_face_vertices.size(); f++)
 			{
-				//triangleList.push_back(Tri());
 				Tri::Vertices vertices;
 				Tri::Normals  normals;
 
-				size_t fv = size_t(shapes[s].mesh.num_face_vertices[f]);
-				// Loop over vertices in the face.
-				for (size_t v = 0; v < fv; v++)
+				auto fv = size_t(shape.mesh.num_face_vertices[f]);
+				for (auto v = 0; v < fv; v++)
 				{
 					/// access to vertex
-					index_t idx = shapes[s].mesh.indices[index_offset + v];
-					real_t vx = attrib.vertices[3 * size_t(idx.vertex_index) + 0];
-					real_t vy = attrib.vertices[3 * size_t(idx.vertex_index) + 1];
-					real_t vz = attrib.vertices[3 * size_t(idx.vertex_index) + 2];
+					auto idx = shape.mesh.indices[index_offset + v];
+					auto vx = attrib.vertices[3 * size_t(idx.vertex_index) + 0];
+					auto vy = attrib.vertices[3 * size_t(idx.vertex_index) + 1];
+					auto vz = attrib.vertices[3 * size_t(idx.vertex_index) + 2];
 					vertices[v] = Vector3{ vx, vy, vz };
 
 					/// Get normals negative = no normal data
 					if (idx.normal_index > -1)
 					{
-						tinyobj::real_t nx = attrib.normals[3 * size_t(idx.normal_index) + 0];
-						tinyobj::real_t ny = attrib.normals[3 * size_t(idx.normal_index) + 1];
-						tinyobj::real_t nz = attrib.normals[3 * size_t(idx.normal_index) + 2];
+						auto nx = attrib.normals[3 * size_t(idx.normal_index) + 0];
+						auto ny = attrib.normals[3 * size_t(idx.normal_index) + 1];
+						auto nz = attrib.normals[3 * size_t(idx.normal_index) + 2];
 						normals[v] = Vector3{ nx, ny, nz };
 					}
 				}
 
 				/// create the tri and add to the list
 				triangleList.emplace_back(Tri(vertices, normals));
+				object_list[name].triangles.emplace_back(Tri(vertices, normals));
 
 				index_offset += fv;
 			}
@@ -98,7 +99,23 @@ public:
 		return triangleList;
 	}
 
+	std::unique_ptr<Object> CreateObject(std::string name, Vector3 position)
+	{
+		auto obj = Object();
+		for(auto& t : object_list[name].triangles)
+		{
+			for(auto& v : t.GetVertices())
+			{
+				v += position;
+			}
+			obj.triangles.emplace_back(t);
+		}
+
+		return std::make_unique<Object>(obj);
+	}
+
 
 private:
 	std::vector<Tri> triangleList;
+	std::map<std::string , Object> object_list;
 };
