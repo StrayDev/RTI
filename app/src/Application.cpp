@@ -30,22 +30,27 @@ void Application::run()
 	auto start = std::chrono::high_resolution_clock::now();
 
 	/// create the camera
-	auto camera = Camera(Vector3{ 0, 1, 2 }, Vector3{ 0, 0, 0 });/// direction not in yet
+	auto camera = Camera(Vector3{ 0, 1, 1.5 }, Vector3{ 0, 0, 1 });/// direction not in yet
 
 	/// testing import of tiny obj
 	auto objloader = ObjLoader();
-	objloader.LoadObj("Teapot.obj");
+	objloader.LoadObj("bunny.obj");
 	auto triList = objloader.GetTriangleList();
 
-	std::cout << "Number of triangles : " << triList.size() << '\n';
-
-	/// old method
+	/// render methods
 	//RenderBasic(triList, camera);
+	RenderBVH(camera, triList);
 
+	/// stop the timer and print result
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+	std::cerr << '\n' << "Write time : " << duration.count() << '\n';
+}
+
+void Application::RenderBVH(const Camera& camera, const std::vector<Tri>& triList)
+{
 	/// build the BVH
 	auto root_node = BVHNode(triList);
-
-	return;
 
 	/// Create file
 	auto file = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
@@ -54,7 +59,7 @@ void Application::run()
 	/// render : for each pixel
 	for (int j = screen_height; j > -1; --j)
 	{
-		std::cerr << "\rLines remaining : " << j << std::flush;
+		std::cerr << "\r Lines remaining : " << j << std::flush;
 
 		for (auto i = 0; i < screen_width; ++i)
 		{
@@ -66,20 +71,37 @@ void Application::run()
 			auto ray = Ray(camera.position, camera.GetDirectionFromUV(u, v));
 			auto hit = Hit();
 
-			/// bvh
-			//auto triangles = root_node.hit(ray, hit);
-			if (hit.t == infinity) DrawBackground(file, i, j);
-			else DrawBackground(file, j, i);
+			/// navigate bvh
+			auto tri_list = std::vector<Tri>();
+			root_node.hit(ray, tri_list);
+
+			/// check intersection with eligible triangles
+			for (auto t : tri_list)
+			{
+				t.hit(ray, hit);
+			}
+
+			if (hit.t < infinity)
+			{
+				/// colour from normals
+				int ir = static_cast<int>(255.999 * hit.color.x());
+				int ig = static_cast<int>(255.999 * hit.color.y());
+				int ib = static_cast<int>(255.999 * hit.color.z());
+
+				if (hit.color.x() != hit.color.x() || hit.color.y() != hit.color.y() || hit.color.z() != hit.color.z())
+				{
+					std::cout << "NaN\n";
+				}
+
+				file << ir << ' ' << ig << ' ' << ib << '\n';
+
+				continue;
+			}
+
+			DrawBackground(file, i, j);
 		}
 	}
-
-
-
-	/// stop the timer and print result
-	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-	std::cerr << '\n'
-			  << "Write time : " << duration << '\n';
+	file.close();
 }
 
 void Application::RenderBasic(const std::vector<Tri>& tri_list, const Camera& camera)
@@ -134,9 +156,9 @@ void Application::RenderBasic(const std::vector<Tri>& tri_list, const Camera& ca
 				int ir = static_cast<int>(255.999 * hit.color.x());
 				int ig = static_cast<int>(255.999 * hit.color.y());
 				int ib = static_cast<int>(255.999 * hit.color.z());
-				if (hit.color.x() != hit.color.x() || hit.color.y() != hit.color.y() || hit.color.z() != hit.color.z())
+				/*				if (hit.color.x() != hit.color.x() || hit.color.y() != hit.color.y() || hit.color.z() != hit.color.z())
 				{
-				}
+				}*/
 				file << ir << ' ' << ig << ' ' << ib << '\n';
 				//file << 50 << ' ' << 10 << ' ' << 10 << '\n';
 			}

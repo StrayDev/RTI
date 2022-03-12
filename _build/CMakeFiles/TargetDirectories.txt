@@ -4,7 +4,9 @@ F:/Dev/RTI/_build/CMakeFiles/install/local.dir
 F:/Dev/RTI/_build/CMakeFiles/install.dir
 F:/Dev/RTI/_build/CMakeFiles/edit_cache.dir
 F:/Dev/RTI/_build/CMakeFiles/rebuild_cache.dir
+F:/Dev/RTI/_build/CMakeFiles/install/strip.dir
 F:/Dev/RTI/_build/lib/tinyobj/CMakeFiles/tinyobjloader.dir
+F:/Dev/RTI/_build/lib/tinyobj/CMakeFiles/install/strip.dir
 F:/Dev/RTI/_build/lib/tinyobj/CMakeFiles/uninstall.dir
 F:/Dev/RTI/_build/lib/tinyobj/CMakeFiles/install/local.dir
 F:/Dev/RTI/_build/lib/tinyobj/CMakeFiles/install.dir

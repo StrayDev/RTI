@@ -25,4 +25,5 @@ private:
 private:
 	const int screen_width = 1920 / 4;
 	const int screen_height = 1080 / 4;
+	void RenderBVH(const Camera& camera, const std::vector<Tri>& triList);
 };

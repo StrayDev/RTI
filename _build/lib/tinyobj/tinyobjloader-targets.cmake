@@ -52,7 +52,7 @@ set_target_properties(tinyobjloader PROPERTIES
 set_property(TARGET tinyobjloader APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(tinyobjloader PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
-  IMPORTED_LOCATION_RELEASE "F:/Dev/RTI/_build/lib/tinyobj/tinyobjloader.lib"
+  IMPORTED_LOCATION_RELEASE "F:/Dev/RTI/_build/lib/tinyobj/libtinyobjloader.a"
   )
 
 # This file does not depend on other imported targets which have
