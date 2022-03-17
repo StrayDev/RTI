@@ -147,6 +147,11 @@ bool BVHNode::hit(const Ray& ray, Hit& hit)
 	return true;
 }
 
+struct Segment {
+	int count = 0;
+	AABB bounds;
+};
+
 BVHNode::leftRightSplit BVHNode::CreateSplitListsSAH(int axis, const std::vector<Tri>& list)
 {
 	/// create the new lists
@@ -154,73 +159,67 @@ BVHNode::leftRightSplit BVHNode::CreateSplitListsSAH(int axis, const std::vector
 	std::vector<Tri> right_list{};
 
 	/// todo : Allocate BucketInfo for SAH partition buckets
-	constexpr int bucket_count = 8;
-	struct Bucket {
-		int count = 0;
-		AABB bounds;
-	};
-	std::vector<Bucket> bucket_list(bucket_count);
+	constexpr int num_segments = 12;
+	std::array<Segment, num_segments> segment_list;
 
-	/// todo : Initialize BucketInfo for SAH partition buckets
+	/// sort the segments
 	for (auto tri : list)
 	{
 		/// Sections the triangles into buckets based on their offset from the min point of the AAbb
-		///int b = bucket_count * bounds.Offset(itr->GetAABB().midpoint().value[axis]);
-		int b = static_cast<int>(bucket_count * bounds.offset(tri.GetAABB().midpoint()).value[axis]);
-		if (b == bucket_count)
+		int b = num_segments * bounds.offset(tri.GetAABB().midpoint()).value[axis];
+		if (b == num_segments)
 		{
-			b = bucket_count - 1;
+			b = num_segments - 1;
 		}
-		bucket_list[b].count++;
-		bucket_list[b].bounds = AABB::MergeBounds(bucket_list[b].bounds, tri.GetAABB());
+		segment_list[b].count++;
+		segment_list[b].bounds = AABB::MergeBounds(segment_list[b].bounds, tri.GetAABB());
 	}
 
 	/// todo : Compute costs for splitting after each bucket
 	/// store the cost for each bucket
-	float cost[bucket_count - 1];
-
-	for (int i = 0; i < bucket_count - 1; ++i)
+	float cost[num_segments - 1];
+	for (int i = 0; i < num_segments - 1; ++i)
 	{
 		/// use the first value to prevent merging with {}
-		AABB b0 = bucket_list[0].bounds;
-		AABB b1 = bucket_list[0].bounds;
-
-		int count0 = 0;
-		int count1 = 0;
+		auto left_bounds = segment_list[0].bounds;
+		auto right_bounds = segment_list.end()->bounds;
+		auto left_count = 0;
+		auto right_count = 0;
 
 		for (int j = 0; j <= i; ++j)
 		{
-			b0 = AABB::MergeBounds(b0, bucket_list[j].bounds);
-			count0 += bucket_list[j].count;
+			left_bounds = AABB::MergeBounds(left_bounds, segment_list[j].bounds);
+			left_count += segment_list[j].count;
 		}
 
-		for (int j = i + 1; j < bucket_count; ++j)
+		for (int j = i + 1; j < num_segments; ++j)
 		{
-			b1 = AABB::MergeBounds(b1, bucket_list[j].bounds);
-			count1 += bucket_list[j].count;
+			right_bounds = AABB::MergeBounds(right_bounds, segment_list[j].bounds);
+			right_count += segment_list[j].count;
 		}
 
 		/// work out the cost based on the surface area
-		cost[i] = .125f + (count0 * b0.surfaceArea() + count1 * b1.surfaceArea()) / bounds.surfaceArea();
+		cost[i] = .125f + (left_count * left_bounds.surfaceArea() + right_count * right_bounds.surfaceArea()) / bounds.surfaceArea();
 	}
+
 	/// todo : Find bucket to split at that minimizes SAH metric
 	float min_cost = cost[0];
-	int best_bucket = 0;
-	for (int i = 1; i < bucket_count - 1; i++)
+	int best_segment = 0;
+	for (int i = 1; i < num_segments - 1; i++)
 	{
 		if (cost[i] < min_cost)
 		{
 			min_cost = cost[i];
-			best_bucket = i;
+			best_segment = i;
 		}
 	}
 
 	/// todo : split primitives into left and right lists
 	for(auto tri : list)
 	{
-		int b = static_cast<int>(bucket_count * bounds.offset(tri.GetAABB().midpoint()).value[axis]);
-		if (b == bucket_count) b = bucket_count - 1;
-		if( b <= best_bucket )
+		int segment = num_segments * bounds.offset(tri.GetAABB().midpoint()).value[axis];
+		if (segment == num_segments) segment = num_segments - 1;
+		if(segment <= best_segment)
 		{
 			left_list.push_back(tri);
 			continue;

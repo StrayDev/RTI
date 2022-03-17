@@ -10,6 +10,7 @@
 
 #include <chrono>
 #include <fstream>
+#include <iomanip>
 
 /// unique_ptr constructor replacement
 std::unique_ptr<Application> Application::Create()
@@ -30,7 +31,7 @@ void Application::run()
 	auto start = std::chrono::high_resolution_clock::now();
 
 	/// create the camera
-	auto camera = Camera(Vector3{ 0, 1, 2 }, Vector3{ 0, 0, 1 }); /// direction not in yet
+	auto camera = Camera(Vector3{ 0, 1, 1 }, Vector3{ 0, 0, 1 }); /// direction not in yet
 
 	/// testing import of tiny obj
 	auto objloader = ObjLoader();
@@ -47,7 +48,7 @@ void Application::run()
 	/// stop the timer and print result
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-	std::cerr << '\n' << "Write time : " << duration.count() << '\n';
+	std::cerr << '\n' << "Write time : " << duration.count()/1000.f << '\n';
 }
 
 void Application::RenderBVH(const Camera& camera, const std::vector<Tri>& triList)
@@ -62,7 +63,7 @@ void Application::RenderBVH(const Camera& camera, const std::vector<Tri>& triLis
 	/// render : for each pixel
 	for (int j = screen_height; j > -1; --j)
 	{
-		std::cerr << "\r Lines remaining : " << j << std::flush;
+		std::cerr << "\r Lines remaining : " << std::setfill('0') << std::setw(4) << j << std::flush;
 
 		for (auto i = 0; i < screen_width; ++i)
 		{
