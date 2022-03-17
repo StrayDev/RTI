@@ -20,6 +20,15 @@ public:
 	[[nodiscard]] Vector3 min() const { return minimum; }
 	[[nodiscard]] Vector3 max() const { return maximum; }
 
+	[[nodiscard]] Vector3 diagonal() const { return minimum - maximum; }
+
+	[[nodiscard]] double surfaceArea() const
+	{
+		auto d = diagonal();
+		return 2 * (d.x() * d.y() + d.x() * d.z() + d.y() * d.z());
+	}
+
+
 	[[nodiscard]] bool hit(const Ray& r, double t_min, double t_max) const;
 
 public:

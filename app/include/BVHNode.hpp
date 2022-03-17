@@ -1,10 +1,10 @@
 #pragma once
 
-#include <algorithm>
 #include "AABB.hpp"
 #include "Hit.hpp"
 #include "Math.hpp"
 #include "Tri.hpp"
+#include <algorithm>
 
 class BVHNode
 {
@@ -29,7 +29,7 @@ private:
 
 	AABB bounds;
 	bool is_leaf{ false };
-	std::vector<Tri> tris { };
+	std::vector<Tri> tris{};
 	std::unique_ptr<BVHNode> left{ nullptr };
 	std::unique_ptr<BVHNode> right{ nullptr };
 };
@@ -156,7 +156,7 @@ BVHNode::leftRightSplit BVHNode::CreateSplitListsSAH(int axis, std::vector<Tri>&
 
 	/// Partition primitives using approximate SAH
 	/// todo : remove? : i dont think i need this first bit
-/*	if (list.size() <= max_tris)
+	/*	if (list.size() <= max_tris)
 	{
 		/// todo : Partition primitives into equally sized subsets
 		/// sort based on tri.mid() < tri.mid()
@@ -171,26 +171,56 @@ BVHNode::leftRightSplit BVHNode::CreateSplitListsSAH(int axis, std::vector<Tri>&
 
 	/// todo : Allocate BucketInfo for SAH partition buckets
 	constexpr auto bucket_count = 8;
-	struct Bucket{ int count = 0; AABB bounds; };
+	struct Bucket {
+		int count = 0;
+		AABB bounds;
+	};
 	std::array<Bucket, bucket_count> bucket_list;
 
-    /// todo : Initialize BucketInfo for SAH partition buckets
-/*	for (auto itr = list.begin(); itr < list.end(); ++itr)
+	/// todo : Initialize BucketInfo for SAH partition buckets
+
+	for (auto itr = list.begin(); itr < list.end(); ++itr)
 	{
-		int b = bucket_count * centroidBounds.Offset(itr->GetAABB().midpoint().value[axis];
+		/// Sections the triangles into buckets based on their offset from the min point of the AAbb
+		///int b = bucket_count * bounds.Offset(itr->GetAABB().midpoint().value[axis]);
+		int b = static_cast<int>(bucket_count) * (bounds.min() - itr->GetAABB().midpoint()).value[axis];
 		if (b == bucket_count) b = bucket_count - 1;
 		bucket_list[b].count++;
 		bucket_list[b].bounds = AABB::MergeBounds(bucket_list[b].bounds, itr->GetAABB());
-	}*/
+	}
 
-    /// todo : Compute costs for splitting after each bucket
+	/// todo : Compute costs for splitting after each bucket
+	/// store the cost for each bucket
+	float cost[bucket_count - 1];
 
-    /// todo : Find bucket to split at that minimizes SAH metric
+	for (int i = 0; i < bucket_count - 1; ++i)
+	{
+		/// use the first value to prevent merging with {}
+		AABB b0 = bucket_list[0].bounds;
+		AABB b1 = bucket_list[0].bounds;
 
-    /// todo : Either create leaf or split primitives at selected SAH bucket
+		int count0 = 0;
+		int count1 = 0;
+
+		for (int j = 0; j <= i; ++j)
+		{
+			b0 = AABB::MergeBounds(b0, bucket_list[j].bounds);
+			count0 += bucket_list[j].count;
+		}
+
+		for (int j = i + 1; j < bucket_count; ++j)
+		{
+			b1 = AABB::MergeBounds(b1, bucket_list[j].bounds);
+			count1 += bucket_list[j].count;
+		}
+
+		/// work out the cost based on the surface area
+		cost[i] = .125f + (count0 * b0.surfaceArea() + count1 * b1.surfaceArea()) / bounds.surfaceArea();
+	}
+	/// todo : Find bucket to split at that minimizes SAH metric
+
+	/// todo : Either create leaf or split primitives at selected SAH bucket
 
 
-	return { left_list, right_list } ;
+	return { left_list, right_list };
 }
-
-

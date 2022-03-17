@@ -39,7 +39,7 @@ public:
 		double mid_x = (v1.x() + v2.x()) / 2.f;
 		double mid_y = (v1.y() + v2.y()) / 2.f;
 		double mid_z = (v1.z() + v2.z()) / 2.f;
-		return {mid_x, mid_y, mid_z };
+		return { mid_x, mid_y, mid_z };
 	}
 
 	[[nodiscard]] inline double length() const;
@@ -133,5 +133,3 @@ inline Vector3& operator/=(Vector3& vector3, const double value)
 {
 	return vector3 *= 1 / value;
 }
-
-
