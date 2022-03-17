@@ -123,8 +123,15 @@ inline Vector3& operator*=(Vector3& vector3, const double value)
 	return vector3;
 }
 
+inline Vector3 operator*=(Vector3& v1, Vector3& v2)
+{
+	return { v1.value[0] *= v2.value[0], v1.value[1] *= v2.value[1], v1.value[2] *= v2.value[2] };
+}
+
 /// divide equals
 inline Vector3& operator/=(Vector3& vector3, const double value)
 {
 	return vector3 *= 1 / value;
 }
+
+

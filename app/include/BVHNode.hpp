@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include "AABB.hpp"
 #include "Hit.hpp"
 #include "Math.hpp"
@@ -11,7 +12,7 @@ public:
 	explicit BVHNode(const std::vector<Tri>& triangleList);
 	~BVHNode() = default;
 
-	bool hit(const Ray& ray, std::vector<Tri>& tri_list);
+	bool hit(const Ray& ray, Hit& hit);
 
 private:
 	void CreateBounds(const std::vector<Tri>& triangleList);
@@ -20,6 +21,7 @@ private:
 
 	using leftRightSplit = std::tuple<std::vector<Tri>, std::vector<Tri>>;
 	leftRightSplit CreateSplitLists(int axis, const std::vector<Tri>& list);
+	leftRightSplit CreateSplitListsSAH(int axis, std::vector<Tri>& list);
 
 private:
 	/// 8 is arbitrary
@@ -123,7 +125,7 @@ BVHNode::leftRightSplit BVHNode::CreateSplitLists(int axis, const std::vector<Tr
 	return { left_list, right_list };
 }
 
-bool BVHNode::hit(const Ray& ray, std::vector<Tri>& tri_list)
+bool BVHNode::hit(const Ray& ray, Hit& hit)
 {
 	/// ont draw if you dont hit
 	if (!bounds.hit(ray, 0, 999)) return false;
@@ -132,15 +134,63 @@ bool BVHNode::hit(const Ray& ray, std::vector<Tri>& tri_list)
 	if (!is_leaf)
 	{
 		/// hit recursive
-		auto l = left->hit(ray, tri_list);
-		auto r = right->hit(ray, tri_list);
+		auto l = left->hit(ray, hit);
+		auto r = right->hit(ray, hit);
 		return l || r;
 	}
 
 	/// add triangles to list
 	for (auto t : tris)
 	{
-		tri_list.push_back(t);
+		t.hit(ray, hit);
+		//tri_list.push_back(t);
 	}
 	return true;
 }
+
+BVHNode::leftRightSplit BVHNode::CreateSplitListsSAH(int axis, std::vector<Tri>& list)
+{
+	/// create the new lists
+	std::vector<Tri> left_list{};
+	std::vector<Tri> right_list{};
+
+	/// Partition primitives using approximate SAH
+	/// todo : remove? : i dont think i need this first bit
+/*	if (list.size() <= max_tris)
+	{
+		/// todo : Partition primitives into equally sized subsets
+		/// sort based on tri.mid() < tri.mid()
+		auto mid = list.begin() + list.size() / 2;
+		std::sort(list.begin(),list.end(), [axis](Tri a, Tri b)
+				  { return a.GetAABB().midpoint().value[axis] < a.GetAABB().midpoint().value[axis]; });
+		for(auto i = list.begin(); i < mid; i++) left_list.emplace_back(*i);
+		for(auto i = mid; i < list.end(); i++) right_list.emplace_back(*i);
+		/// return the lists
+		return { left_list, right_list };
+	}*/
+
+	/// todo : Allocate BucketInfo for SAH partition buckets
+	constexpr auto bucket_count = 8;
+	struct Bucket{ int count = 0; AABB bounds; };
+	std::array<Bucket, bucket_count> bucket_list;
+
+    /// todo : Initialize BucketInfo for SAH partition buckets
+/*	for (auto itr = list.begin(); itr < list.end(); ++itr)
+	{
+		int b = bucket_count * centroidBounds.Offset(itr->GetAABB().midpoint().value[axis];
+		if (b == bucket_count) b = bucket_count - 1;
+		bucket_list[b].count++;
+		bucket_list[b].bounds = AABB::MergeBounds(bucket_list[b].bounds, itr->GetAABB());
+	}*/
+
+    /// todo : Compute costs for splitting after each bucket
+
+    /// todo : Find bucket to split at that minimizes SAH metric
+
+    /// todo : Either create leaf or split primitives at selected SAH bucket
+
+
+	return { left_list, right_list } ;
+}
+
+

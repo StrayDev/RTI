@@ -35,12 +35,10 @@ void Application::run()
 	/// testing import of tiny obj
 	auto objloader = ObjLoader();
 	objloader.LoadObj("bunny.obj", "bunny");
-	auto bunny_1 = objloader.CreateObject("bunny", {.01, 0,0 });
+	auto bunny_1 = objloader.CreateObject("bunny", {0, 0,0 });
 	auto triList = bunny_1->triangles;
 
 	std::cout << triList[0].GetVertices()[0] << '\n';
-
-	//auto triList = objloader.GetTriangleList();
 
 	/// render methods
 	//RenderBasic(triList, camera);
@@ -77,14 +75,7 @@ void Application::RenderBVH(const Camera& camera, const std::vector<Tri>& triLis
 			auto hit = Hit();
 
 			/// navigate bvh
-			auto tri_list = std::vector<Tri>();
-			root_node.hit(ray, tri_list);
-
-			/// check intersection with eligible triangles
-			for (auto t : tri_list)
-			{
-				t.hit(ray, hit);
-			}
+			root_node.hit(ray, hit);
 
 			if (hit.t < infinity)
 			{

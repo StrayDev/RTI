@@ -28,7 +28,8 @@ public:
 	inline const AABB& GetAABB() const { return bounding_box; }
 	inline Vertices& GetVertices() { return vertices; }
 	inline Normals& GetNormals() { return normals; }
-	inline Vector3 GetFaceNormal() { return (normals[0] + normals[1] + normals[2]) / 3; }
+	inline Vector3 GetFaceNormal();
+	inline Vector3 GetHitNormal(double u, double v);
 
 private:
 	Normals normals;  /// i want to store this in contiguous memory...

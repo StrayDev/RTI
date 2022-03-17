@@ -200,6 +200,8 @@ CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visu
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xtimec.h"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\ctime"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\time.h"
+CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\vector"
+CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xpolymorphic_allocator.h"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\AABB.hpp
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\Ray.hpp
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\Vector3.hpp
@@ -219,7 +221,6 @@ CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visu
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\cerrno"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\stdexcept"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xstring"
-CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xpolymorphic_allocator.h"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xcall_once.h"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xerrc.h"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xlocale"
@@ -230,28 +231,27 @@ CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visu
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\ctype.h"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\clocale"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\locale.h"
-CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\Camera.hpp
-CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\Math.hpp
+CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\BVHNode.hpp
+CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\algorithm"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\Hit.hpp
+CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\Math.hpp
+CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\Tri.hpp
+CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\Camera.hpp
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\ObjLoader.hpp
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\string"
-CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\Tri.hpp
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\lib\tinyobj\tiny_obj_loader.h
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\map"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xtree"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xnode_handle.h"
-CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\vector"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\cassert"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\assert.h"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\fstream"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\set"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\sstream"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\Settings.hpp
-CMakeFiles\RTI.dir\app\src\Application.cpp.obj: ..\app\include\BVHNode.hpp
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\chrono"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\ratio"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\__msvc_tzdb.hpp"
-CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\algorithm"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\forward_list"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\optional"
 CMakeFiles\RTI.dir\app\src\Application.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xsmf_control.h"
@@ -374,6 +374,7 @@ CMakeFiles\RTI.dir\app\src\Tri.cpp.obj: ..\app\include\AABB.hpp
 CMakeFiles\RTI.dir\app\src\Tri.cpp.obj: ..\app\include\Ray.hpp
 CMakeFiles\RTI.dir\app\src\Tri.cpp.obj: ..\app\include\Hit.hpp
 CMakeFiles\RTI.dir\app\src\Tri.cpp.obj: ..\app\include\Math.hpp
+CMakeFiles\RTI.dir\app\src\Tri.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\vector"
 
 
 CMakeFiles\RTI.dir\app\src\Vector3.cpp.obj: ..\app\src\Vector3.cpp
@@ -573,6 +574,8 @@ CMakeFiles\RTI.dir\main.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\
 CMakeFiles\RTI.dir\main.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xtimec.h"
 CMakeFiles\RTI.dir\main.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\ctime"
 CMakeFiles\RTI.dir\main.cpp.obj: "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\time.h"
+CMakeFiles\RTI.dir\main.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\vector"
+CMakeFiles\RTI.dir\main.cpp.obj: "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xpolymorphic_allocator.h"
 
 
 
@@ -634,9 +637,9 @@ CMakeFiles\RTI.dir\main.cpp.obj: "C:\Program Files (x86)\Windows Kits\10\include
 
 "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\crtdefs.h":
 
-"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\algorithm":
-
 ..\app\include\Settings.hpp:
+
+"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\algorithm":
 
 "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\array":
 
@@ -822,23 +825,23 @@ CMakeFiles\RTI.dir\main.cpp.obj: "C:\Program Files (x86)\Windows Kits\10\include
 
 ..\app\include\Application.hpp:
 
-..\app\include\Camera.hpp:
+"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\vector":
 
 "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xnode_handle.h":
 
 ..\app\include\Hit.hpp:
 
-"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\string":
-
 ..\app\include\Tri.hpp:
+
+..\app\include\Camera.hpp:
+
+"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\string":
 
 ..\lib\tinyobj\tiny_obj_loader.h:
 
 "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\map":
 
 "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\xtree":
-
-"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\vector":
 
 "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\cassert":
 

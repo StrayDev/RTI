@@ -53,6 +53,19 @@ AABB Tri::CreateAABB()/// this seems really slow
 
 	return AABB{ small, large };
 }
+Vector3 Tri::GetFaceNormal()
+{
+	auto hit_normal = Vector3::cross(vertices[1] - vertices[0], vertices[2] - vertices[0]);
+	return hit_normal.normalize();
+}
+
+Vector3 Tri::GetHitNormal(double u, double v)
+{
+	//hitNormal = (1 - uv.x - uv.y) * n0 + uv.x * n1 + uv.y * n2;
+	//auto hit_normal = (1 - uv.x - uv.y) * n0 + uv.x * n1 + uv.y * n2;
+	std::cerr << "GetHitNormal() not implemented" << '\n';
+	return Vector3();
+}
 
 /// old triangle intersection code
 /*	/// get tri data
