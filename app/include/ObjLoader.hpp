@@ -85,7 +85,7 @@ public:
 				}
 
 				/// create the tri and add to the list
-				triangleList.emplace_back(Tri(vertices, normals));
+				//triangleList.emplace_back(Tri(vertices, normals));
 				object_list[name].triangles.emplace_back(Tri(vertices, normals));
 
 				index_offset += fv;
@@ -102,12 +102,11 @@ public:
 	std::unique_ptr<Object> CreateObject(std::string name, Vector3 position)
 	{
 		auto obj = Object();
-		for(auto& t : object_list[name].triangles)
+		for(auto t : object_list[name].triangles)
 		{
-			for(auto& v : t.GetVertices())
-			{
-				v += position;
-			}
+			t.GetVertices()[0] += position;
+			t.GetVertices()[1] += position;
+			t.GetVertices()[2] += position;
 			obj.triangles.emplace_back(t);
 		}
 

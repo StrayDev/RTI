@@ -27,9 +27,7 @@ private:
 
 	AABB bounds;
 	bool is_leaf{ false };
-
-	std::vector<Tri> tris{};
-
+	std::vector<Tri> tris { };
 	std::unique_ptr<BVHNode> left{ nullptr };
 	std::unique_ptr<BVHNode> right{ nullptr };
 };
@@ -103,7 +101,7 @@ BVHNode::leftRightSplit BVHNode::CreateSplitLists(int axis, const std::vector<Tr
 	/// store the midpoint
 	auto midpoint = bounds.midpoint().value[axis];
 
-	/// todo remove
+	/// todo remove ??
 	auto left_max = -9999.f;
 	auto right_min = 9999.f;
 
