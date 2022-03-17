@@ -22,6 +22,15 @@ public:
 
 	[[nodiscard]] Vector3 diagonal() const { return minimum - maximum; }
 
+	[[nodiscard]] Vector3 offset(const Vector3& p) const
+	{
+		Vector3 o = p - minimum;
+		if (maximum.x() > minimum.x()) o.value[0] /= maximum.x() - minimum.x();
+		if (maximum.y() > minimum.y()) o.value[1] /= maximum.y() - minimum.y();
+		if (maximum.z() > minimum.z()) o.value[2] /= maximum.z() - minimum.z();
+		return o;
+	}
+
 	[[nodiscard]] double surfaceArea() const
 	{
 		auto d = diagonal();

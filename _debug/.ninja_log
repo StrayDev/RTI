@@ -7,3 +7,15 @@
 0	1713	6688154049658774	CMakeFiles/RTI.dir/app/src/Application.cpp.obj	951f5235bcb09ab8
 1713	1954	6688154051798009	RTI.exe	f32a68762131984f
 14	688	6687963462519732	CMakeFiles/RTI.dir/app/src/AABB.cpp.obj	ebb8728dd8d9c88c
+0	332	6692593641659912	CMakeFiles/RTI.dir/main.cpp.obj	c1e8f00e5abdc506
+9	392	6692593642260034	CMakeFiles/RTI.dir/app/src/AABB.cpp.obj	3ddc29a6c4a24bf
+7	396	6692593642300048	CMakeFiles/RTI.dir/app/src/Vector3.cpp.obj	7a3772589ecfc2c0
+5	452	6692593642860170	CMakeFiles/RTI.dir/app/src/Tri.cpp.obj	312220e73aeea017
+11	2025	6692593658523680	lib/tinyobj/CMakeFiles/tinyobjloader.dir/tiny_obj_loader.cc.obj	4b84e521db3cabc9
+3	2544	6692593663694844	CMakeFiles/RTI.dir/app/src/Application.cpp.obj	d428e42c64eaba59
+2026	3078	6692593669116055	lib/tinyobj/libtinyobjloader.a	ebf688dee3be035d
+3078	4970	6692593687983505	RTI.exe	f5c85eb193704a73
+9	373	6692599678075099	CMakeFiles/RTI.dir/app/src/AABB.cpp.obj	3ddc29a6c4a24bf
+7	416	6692599678515198	CMakeFiles/RTI.dir/app/src/Tri.cpp.obj	312220e73aeea017
+4	2575	6692599700010019	CMakeFiles/RTI.dir/app/src/Application.cpp.obj	d428e42c64eaba59
+2575	4500	6692599719292879	RTI.exe	f5c85eb193704a73

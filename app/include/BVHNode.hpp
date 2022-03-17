@@ -21,7 +21,7 @@ private:
 
 	using leftRightSplit = std::tuple<std::vector<Tri>, std::vector<Tri>>;
 	leftRightSplit CreateSplitLists(int axis, const std::vector<Tri>& list);
-	leftRightSplit CreateSplitListsSAH(int axis, std::vector<Tri>& list);
+	leftRightSplit CreateSplitListsSAH(int axis, const std::vector<Tri>& list);
 
 private:
 	/// 8 is arbitrary
@@ -48,7 +48,7 @@ BVHNode::BVHNode(const std::vector<Tri>& triangleList)
 
 	/// find out how to split the axis
 	auto axis = GetGreatestAxis(bounds.extents());
-	auto [left_list, right_list] = CreateSplitLists(axis, triangleList);
+	auto [left_list, right_list] = CreateSplitListsSAH(axis, triangleList);
 
 	/// catch one sided loop
 	if (left_list.empty() || right_list.empty())
@@ -143,50 +143,36 @@ bool BVHNode::hit(const Ray& ray, Hit& hit)
 	for (auto t : tris)
 	{
 		t.hit(ray, hit);
-		//tri_list.push_back(t);
 	}
 	return true;
 }
 
-BVHNode::leftRightSplit BVHNode::CreateSplitListsSAH(int axis, std::vector<Tri>& list)
+BVHNode::leftRightSplit BVHNode::CreateSplitListsSAH(int axis, const std::vector<Tri>& list)
 {
 	/// create the new lists
 	std::vector<Tri> left_list{};
 	std::vector<Tri> right_list{};
 
-	/// Partition primitives using approximate SAH
-	/// todo : remove? : i dont think i need this first bit
-	/*	if (list.size() <= max_tris)
-	{
-		/// todo : Partition primitives into equally sized subsets
-		/// sort based on tri.mid() < tri.mid()
-		auto mid = list.begin() + list.size() / 2;
-		std::sort(list.begin(),list.end(), [axis](Tri a, Tri b)
-				  { return a.GetAABB().midpoint().value[axis] < a.GetAABB().midpoint().value[axis]; });
-		for(auto i = list.begin(); i < mid; i++) left_list.emplace_back(*i);
-		for(auto i = mid; i < list.end(); i++) right_list.emplace_back(*i);
-		/// return the lists
-		return { left_list, right_list };
-	}*/
-
 	/// todo : Allocate BucketInfo for SAH partition buckets
-	constexpr auto bucket_count = 8;
+	constexpr int bucket_count = 8;
 	struct Bucket {
 		int count = 0;
 		AABB bounds;
 	};
-	std::array<Bucket, bucket_count> bucket_list;
+	std::vector<Bucket> bucket_list(bucket_count);
 
 	/// todo : Initialize BucketInfo for SAH partition buckets
-
-	for (auto itr = list.begin(); itr < list.end(); ++itr)
+	for (auto tri : list)
 	{
 		/// Sections the triangles into buckets based on their offset from the min point of the AAbb
 		///int b = bucket_count * bounds.Offset(itr->GetAABB().midpoint().value[axis]);
-		int b = static_cast<int>(bucket_count) * (bounds.min() - itr->GetAABB().midpoint()).value[axis];
-		if (b == bucket_count) b = bucket_count - 1;
+		int b = static_cast<int>(bucket_count * bounds.offset(tri.GetAABB().midpoint()).value[axis]);
+		if (b == bucket_count)
+		{
+			b = bucket_count - 1;
+		}
 		bucket_list[b].count++;
-		bucket_list[b].bounds = AABB::MergeBounds(bucket_list[b].bounds, itr->GetAABB());
+		bucket_list[b].bounds = AABB::MergeBounds(bucket_list[b].bounds, tri.GetAABB());
 	}
 
 	/// todo : Compute costs for splitting after each bucket
@@ -218,9 +204,29 @@ BVHNode::leftRightSplit BVHNode::CreateSplitListsSAH(int axis, std::vector<Tri>&
 		cost[i] = .125f + (count0 * b0.surfaceArea() + count1 * b1.surfaceArea()) / bounds.surfaceArea();
 	}
 	/// todo : Find bucket to split at that minimizes SAH metric
+	float min_cost = cost[0];
+	int best_bucket = 0;
+	for (int i = 1; i < bucket_count - 1; i++)
+	{
+		if (cost[i] < min_cost)
+		{
+			min_cost = cost[i];
+			best_bucket = i;
+		}
+	}
 
-	/// todo : Either create leaf or split primitives at selected SAH bucket
-
-
+	/// todo : split primitives into left and right lists
+	for(auto tri : list)
+	{
+		int b = static_cast<int>(bucket_count * bounds.offset(tri.GetAABB().midpoint()).value[axis]);
+		if (b == bucket_count) b = bucket_count - 1;
+		if( b <= best_bucket )
+		{
+			left_list.push_back(tri);
+			continue;
+		}
+		right_list.push_back(tri);
+	}
 	return { left_list, right_list };
 }
+
