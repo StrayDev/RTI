@@ -58,35 +58,35 @@ build cmake_object_order_depends_target_RTI: phony || cmake_object_order_depends
 build CMakeFiles/RTI.dir/main.cpp.obj: CXX_COMPILER__RTI_Release F$:/Dev/RTI/main.cpp || cmake_object_order_depends_target_RTI
   DEP_FILE = CMakeFiles\RTI.dir\main.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++2a
-  INCLUDES = -IF:/Dev/RTI/app/include -IF:/Dev/RTI/lib/tinyobj
+  INCLUDES = -IF:/Dev/RTI/app/include -IF:/Dev/RTI/lib/tinyobj -IF:/Dev/RTI/lib/glm
   OBJECT_DIR = CMakeFiles\RTI.dir
   OBJECT_FILE_DIR = CMakeFiles\RTI.dir
 
 build CMakeFiles/RTI.dir/app/src/Application.cpp.obj: CXX_COMPILER__RTI_Release F$:/Dev/RTI/app/src/Application.cpp || cmake_object_order_depends_target_RTI
   DEP_FILE = CMakeFiles\RTI.dir\app\src\Application.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++2a
-  INCLUDES = -IF:/Dev/RTI/app/include -IF:/Dev/RTI/lib/tinyobj
+  INCLUDES = -IF:/Dev/RTI/app/include -IF:/Dev/RTI/lib/tinyobj -IF:/Dev/RTI/lib/glm
   OBJECT_DIR = CMakeFiles\RTI.dir
   OBJECT_FILE_DIR = CMakeFiles\RTI.dir\app\src
 
 build CMakeFiles/RTI.dir/app/src/Vector3.cpp.obj: CXX_COMPILER__RTI_Release F$:/Dev/RTI/app/src/Vector3.cpp || cmake_object_order_depends_target_RTI
   DEP_FILE = CMakeFiles\RTI.dir\app\src\Vector3.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++2a
-  INCLUDES = -IF:/Dev/RTI/app/include -IF:/Dev/RTI/lib/tinyobj
+  INCLUDES = -IF:/Dev/RTI/app/include -IF:/Dev/RTI/lib/tinyobj -IF:/Dev/RTI/lib/glm
   OBJECT_DIR = CMakeFiles\RTI.dir
   OBJECT_FILE_DIR = CMakeFiles\RTI.dir\app\src
 
 build CMakeFiles/RTI.dir/app/src/Tri.cpp.obj: CXX_COMPILER__RTI_Release F$:/Dev/RTI/app/src/Tri.cpp || cmake_object_order_depends_target_RTI
   DEP_FILE = CMakeFiles\RTI.dir\app\src\Tri.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++2a
-  INCLUDES = -IF:/Dev/RTI/app/include -IF:/Dev/RTI/lib/tinyobj
+  INCLUDES = -IF:/Dev/RTI/app/include -IF:/Dev/RTI/lib/tinyobj -IF:/Dev/RTI/lib/glm
   OBJECT_DIR = CMakeFiles\RTI.dir
   OBJECT_FILE_DIR = CMakeFiles\RTI.dir\app\src
 
 build CMakeFiles/RTI.dir/app/src/AABB.cpp.obj: CXX_COMPILER__RTI_Release F$:/Dev/RTI/app/src/AABB.cpp || cmake_object_order_depends_target_RTI
   DEP_FILE = CMakeFiles\RTI.dir\app\src\AABB.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++2a
-  INCLUDES = -IF:/Dev/RTI/app/include -IF:/Dev/RTI/lib/tinyobj
+  INCLUDES = -IF:/Dev/RTI/app/include -IF:/Dev/RTI/lib/tinyobj -IF:/Dev/RTI/lib/glm
   OBJECT_DIR = CMakeFiles\RTI.dir
   OBJECT_FILE_DIR = CMakeFiles\RTI.dir\app\src
 
@@ -284,6 +284,146 @@ build lib/tinyobj/CMakeFiles/uninstall | ${cmake_ninja_workdir}lib/tinyobj/CMake
   COMMAND = cmd.exe /C "cd /D F:\Dev\RTI\_build\lib\tinyobj && "C:\Program Files\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -P F:/Dev/RTI/_build/lib/tinyobj/cmake_uninstall.cmake"
 
 # =============================================================================
+# Write statements declared in CMakeLists.txt:
+# F:/Dev/RTI/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for install/local
+
+build lib/glm/CMakeFiles/install/local.util: CUSTOM_COMMAND lib/glm/all
+  COMMAND = cmd.exe /C "cd /D F:\Dev\RTI\_build\lib\glm && "C:\Program Files\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
+  DESC = Installing only the local directory...
+  pool = console
+  restat = 1
+
+build lib/glm/install/local: phony lib/glm/CMakeFiles/install/local.util
+
+
+#############################################
+# Utility command for install
+
+build lib/glm/CMakeFiles/install.util: CUSTOM_COMMAND lib/glm/all
+  COMMAND = cmd.exe /C "cd /D F:\Dev\RTI\_build\lib\glm && "C:\Program Files\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -P cmake_install.cmake"
+  DESC = Install the project...
+  pool = console
+  restat = 1
+
+build lib/glm/install: phony lib/glm/CMakeFiles/install.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build lib/glm/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D F:\Dev\RTI\_build\lib\glm && "C:\Program Files\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build lib/glm/edit_cache: phony lib/glm/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build lib/glm/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D F:\Dev\RTI\_build\lib\glm && "C:\Program Files\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SF:\Dev\RTI -BF:\Dev\RTI\_build"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build lib/glm/rebuild_cache: phony lib/glm/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for list_install_components
+
+build lib/glm/list_install_components: phony
+
+
+#############################################
+# Utility command for install/strip
+
+build lib/glm/CMakeFiles/install/strip.util: CUSTOM_COMMAND lib/glm/all
+  COMMAND = cmd.exe /C "cd /D F:\Dev\RTI\_build\lib\glm && "C:\Program Files\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
+  DESC = Installing the project stripped...
+  pool = console
+  restat = 1
+
+build lib/glm/install/strip: phony lib/glm/CMakeFiles/install/strip.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# F:/Dev/RTI/lib/glm/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for install/strip
+
+build lib/glm/glm/CMakeFiles/install/strip.util: CUSTOM_COMMAND lib/glm/glm/all
+  COMMAND = cmd.exe /C "cd /D F:\Dev\RTI\_build\lib\glm\glm && "C:\Program Files\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
+  DESC = Installing the project stripped...
+  pool = console
+  restat = 1
+
+build lib/glm/glm/install/strip: phony lib/glm/glm/CMakeFiles/install/strip.util
+
+
+#############################################
+# Utility command for install/local
+
+build lib/glm/glm/CMakeFiles/install/local.util: CUSTOM_COMMAND lib/glm/glm/all
+  COMMAND = cmd.exe /C "cd /D F:\Dev\RTI\_build\lib\glm\glm && "C:\Program Files\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
+  DESC = Installing only the local directory...
+  pool = console
+  restat = 1
+
+build lib/glm/glm/install/local: phony lib/glm/glm/CMakeFiles/install/local.util
+
+
+#############################################
+# Utility command for install
+
+build lib/glm/glm/CMakeFiles/install.util: CUSTOM_COMMAND lib/glm/glm/all
+  COMMAND = cmd.exe /C "cd /D F:\Dev\RTI\_build\lib\glm\glm && "C:\Program Files\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -P cmake_install.cmake"
+  DESC = Install the project...
+  pool = console
+  restat = 1
+
+build lib/glm/glm/install: phony lib/glm/glm/CMakeFiles/install.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build lib/glm/glm/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D F:\Dev\RTI\_build\lib\glm\glm && "C:\Program Files\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build lib/glm/glm/edit_cache: phony lib/glm/glm/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build lib/glm/glm/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D F:\Dev\RTI\_build\lib\glm\glm && "C:\Program Files\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SF:\Dev\RTI -BF:\Dev\RTI\_build"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build lib/glm/glm/rebuild_cache: phony lib/glm/glm/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for list_install_components
+
+build lib/glm/glm/list_install_components: phony
+
+# =============================================================================
 # Target aliases.
 
 build RTI: phony RTI.exe
@@ -302,7 +442,21 @@ build uninstall: phony lib/tinyobj/uninstall
 #############################################
 # Folder: F:/Dev/RTI/_build
 
-build all: phony RTI.exe lib/tinyobj/all
+build all: phony RTI.exe lib/tinyobj/all lib/glm/all
+
+# =============================================================================
+
+#############################################
+# Folder: F:/Dev/RTI/_build/lib/glm
+
+build lib/glm/all: phony lib/glm/glm/all
+
+# =============================================================================
+
+#############################################
+# Folder: F:/Dev/RTI/_build/lib/glm/glm
+
+build lib/glm/glm/all: phony
 
 # =============================================================================
 
@@ -318,14 +472,14 @@ build lib/tinyobj/all: phony lib/tinyobj/libtinyobjloader.a
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | ../CMakeLists.txt ../lib/tinyobj/CMakeLists.txt ../lib/tinyobj/cmake_uninstall.cmake.in ../lib/tinyobj/tinyobjloader-config.cmake.in ../lib/tinyobj/tinyobjloader.pc.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/BasicConfigVersion-SameMajorVersion.cmake.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakePackageConfigHelpers.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/GNUInstallDirs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.21.1/CMakeCCompiler.cmake CMakeFiles/3.21.1/CMakeCXXCompiler.cmake CMakeFiles/3.21.1/CMakeRCCompiler.cmake CMakeFiles/3.21.1/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | ../CMakeLists.txt ../lib/glm/CMakeLists.txt ../lib/glm/glm/CMakeLists.txt ../lib/tinyobj/CMakeLists.txt ../lib/tinyobj/cmake_uninstall.cmake.in ../lib/tinyobj/tinyobjloader-config.cmake.in ../lib/tinyobj/tinyobjloader.pc.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/BasicConfigVersion-SameMajorVersion.cmake.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakePackageConfigHelpers.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/GNUInstallDirs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.21.1/CMakeCCompiler.cmake CMakeFiles/3.21.1/CMakeCXXCompiler.cmake CMakeFiles/3.21.1/CMakeRCCompiler.cmake CMakeFiles/3.21.1/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build ../CMakeLists.txt ../lib/tinyobj/CMakeLists.txt ../lib/tinyobj/cmake_uninstall.cmake.in ../lib/tinyobj/tinyobjloader-config.cmake.in ../lib/tinyobj/tinyobjloader.pc.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/BasicConfigVersion-SameMajorVersion.cmake.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakePackageConfigHelpers.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/GNUInstallDirs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.21.1/CMakeCCompiler.cmake CMakeFiles/3.21.1/CMakeCXXCompiler.cmake CMakeFiles/3.21.1/CMakeRCCompiler.cmake CMakeFiles/3.21.1/CMakeSystem.cmake: phony
+build ../CMakeLists.txt ../lib/glm/CMakeLists.txt ../lib/glm/glm/CMakeLists.txt ../lib/tinyobj/CMakeLists.txt ../lib/tinyobj/cmake_uninstall.cmake.in ../lib/tinyobj/tinyobjloader-config.cmake.in ../lib/tinyobj/tinyobjloader.pc.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/BasicConfigVersion-SameMajorVersion.cmake.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakePackageConfigHelpers.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/GNUInstallDirs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.21.1/CMakeCCompiler.cmake CMakeFiles/3.21.1/CMakeCXXCompiler.cmake CMakeFiles/3.21.1/CMakeRCCompiler.cmake CMakeFiles/3.21.1/CMakeSystem.cmake: phony
 
 
 #############################################

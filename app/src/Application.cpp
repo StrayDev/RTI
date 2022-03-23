@@ -8,6 +8,9 @@
 #include "Ray.hpp"
 #include "Settings.hpp"
 
+#include "glm/ext/matrix_clip_space.hpp"
+#include "glm/ext/matrix_transform.hpp"
+
 #include <chrono>
 #include <fstream>
 #include <iomanip>
@@ -30,25 +33,61 @@ void Application::run()
 	/// start timer
 	auto start = std::chrono::high_resolution_clock::now();
 
-	/// create the camera
-	auto camera = Camera(Vector3{ 0, 1, 1 }, Vector3{ 0, 0, 1 }); /// direction not in yet
-
 	/// testing import of tiny obj
 	auto objloader = ObjLoader();
 	objloader.LoadObj("bunny.obj", "bunny");
-	auto bunny_1 = objloader.CreateObject("bunny", {0, 0,0 });
-	auto triList = bunny_1->triangles;
+	auto bunny_1 = objloader.CreateObject("bunny");
 
-	std::cout << triList[0].GetVertices()[0] << '\n';
+	/// perspective matrix
+	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 16.0f / 9.0f, 0.1f, 1000.0f);
+
+	/// Camera matrix
+	glm::mat4 View = glm::lookAt(glm::vec3(0, 2, 1), // Camera position in World Space
+	  						   glm::vec3(0, 0, 0), // and looks at the origin
+								  glm::vec3(0, 1, 0));// Head is up (set to 0,-1,0 to look upside-down)
+
+	// Model matrix : an identity matrix (model will be at the origin)
+	glm::mat4 translation = glm::translate(glm::mat4(1), {0,0,0});
+	glm::mat4 rotation(1);
+	glm::mat4 scale(1);
+
+	glm::mat4 Model = translation * rotation * scale; // = translation * rotation * scale
+													 // Our ModelViewProjection : multiplication of our 3 matrices
+	glm::mat4 MVP = Model; //Projection * View * Model;   // Remember, matrix multiplication is the other way around
+
+	std::cout << "[" << MVP[0][0] << "] [" << MVP[0][1] << "] [" << MVP[0][2] << "] [" << MVP[0][3] << "]" << '\n';
+	std::cout << "[" << MVP[1][0] << "] [" << MVP[1][1] << "] [" << MVP[1][2] << "] [" << MVP[1][3] << "]" << '\n';
+	std::cout << "[" << MVP[2][0] << "] [" << MVP[2][1] << "] [" << MVP[2][2] << "] [" << MVP[2][3] << "]" << '\n';
+	std::cout << "[" << MVP[3][0] << "] [" << MVP[3][1] << "] [" << MVP[3][2] << "] [" << MVP[3][3] << "]" << '\n';
+
+	std::cout << "X ?? : " << MVP[0][0] + MVP[1][0] + MVP[2][0] + MVP[3][0] << '\n';
+	std::cout << "Before  : " << bunny_1->triangles[0].GetVertices().begin()->x() << '\n';
+
+/*	for (auto& t : bunny_1->triangles)
+	{
+		for (auto& v : t.GetVertices())
+		{
+			auto vec = glm::vec4(translation * glm::vec4(v.x(), v.y(), v.z(), 0.0f));
+			v.value[0] += vec[0];
+			v.value[1] += vec[1];
+			v.value[2] += vec[2];
+		}
+	}*/
+
+	std::cout << "After  : " << bunny_1->triangles[0].GetVertices().begin()->x() << '\n';
+
+	/// create the camera
+	auto camera = Camera(Vector3{ 0, 2, 3 }, Vector3{ 0, 0, 1 });/// direction not in yet
 
 	/// render methods
 	//RenderBasic(triList, camera);
-	RenderBVH(camera, triList);
+	RenderBVH(camera, bunny_1->triangles);
 
 	/// stop the timer and print result
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-	std::cerr << '\n' << "Write time : " << duration.count()/1000.f << '\n';
+	std::cerr << "\n Write time      : " << duration.count() / 1000.f << '\n';
 }
 
 void Application::RenderBVH(const Camera& camera, const std::vector<Tri>& triList)
@@ -58,7 +97,8 @@ void Application::RenderBVH(const Camera& camera, const std::vector<Tri>& triLis
 
 	/// Create file
 	auto file = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
-	file << "P3\n" << screen_width << " " << screen_height << "\n255\n";
+	file << "P3\n"
+		 << screen_width << " " << screen_height << "\n255\n";
 
 	/// render : for each pixel
 	for (int j = screen_height; j > -1; --j)

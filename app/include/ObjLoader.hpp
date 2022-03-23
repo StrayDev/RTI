@@ -8,18 +8,15 @@
 #include "Tri.hpp"
 #include "tiny_obj_loader.h"
 
+#include "glm/mat4x4.hpp"
+
 using namespace tinyobj;
 
-class Object
+struct Object
 {
 public:
-	Object()
-	{
-
-	}
-
 	AABB aabb;
-	Vector3 position;
+	glm::mat4x4 transform ;
 	std::vector<Tri> triangles;
 };
 
@@ -99,18 +96,9 @@ public:
 		return triangleList;
 	}
 
-	std::unique_ptr<Object> CreateObject(std::string name, Vector3 position)
+	std::unique_ptr<Object> CreateObject(std::string name)
 	{
-		auto obj = Object();
-		for(auto t : object_list[name].triangles)
-		{
-			t.GetVertices()[0] += position;
-			t.GetVertices()[1] += position;
-			t.GetVertices()[2] += position;
-			obj.triangles.emplace_back(t);
-		}
-
-		return std::make_unique<Object>(obj);
+		return std::make_unique<Object>(object_list[name]);
 	}
 
 

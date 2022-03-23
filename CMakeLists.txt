@@ -29,3 +29,7 @@ include_directories(${CMAKE_SOURCE_DIR}/app/include)
 # add submodule
 add_subdirectory(${CMAKE_SOURCE_DIR}/lib/tinyobj)
 target_link_libraries(${PROJECT_NAME} PRIVATE tinyobjloader)
+
+# add submodule
+add_subdirectory(${CMAKE_SOURCE_DIR}/lib/glm)
+target_link_libraries(${PROJECT_NAME} PRIVATE glm)
