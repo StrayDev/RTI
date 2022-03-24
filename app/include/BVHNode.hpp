@@ -182,7 +182,7 @@ BVHNode::leftRightSplit BVHNode::CreateSplitListsSAH(int axis, const std::vector
 	{
 		/// use the first value to prevent merging with {}
 		auto left_bounds = segment_list[0].bounds;
-		auto right_bounds = segment_list.end()->bounds;
+		auto right_bounds = segment_list[num_segments-1].bounds;
 		auto left_count = 0;
 		auto right_count = 0;
 

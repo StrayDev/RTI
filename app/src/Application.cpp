@@ -38,7 +38,7 @@ void Application::run()
 	objloader.LoadObj("bunny.obj", "bunny");
 	auto bunny_1 = objloader.CreateObject("bunny");
 
-	/// perspective matrix
+/*	/// perspective matrix
 	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 16.0f / 9.0f, 0.1f, 1000.0f);
 
@@ -62,7 +62,7 @@ void Application::run()
 	std::cout << "[" << MVP[3][0] << "] [" << MVP[3][1] << "] [" << MVP[3][2] << "] [" << MVP[3][3] << "]" << '\n';
 
 	std::cout << "X ?? : " << MVP[0][0] + MVP[1][0] + MVP[2][0] + MVP[3][0] << '\n';
-	std::cout << "Before  : " << bunny_1->triangles[0].GetVertices().begin()->x() << '\n';
+	std::cout << "Before  : " << bunny_1->triangles[0].GetVertices().begin()->x() << '\n';*/
 
 /*	for (auto& t : bunny_1->triangles)
 	{
@@ -75,7 +75,7 @@ void Application::run()
 		}
 	}*/
 
-	std::cout << "After  : " << bunny_1->triangles[0].GetVertices().begin()->x() << '\n';
+	//std::cout << "After  : " << bunny_1->triangles[0].GetVertices().begin()->x() << '\n';
 
 	/// create the camera
 	auto camera = Camera(Vector3{ 0, 2, 3 }, Vector3{ 0, 0, 1 });/// direction not in yet

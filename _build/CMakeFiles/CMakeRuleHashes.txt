@@ -1,0 +1,2 @@
+# Hashes of file build rules.
+5e52bef529bb0eaa6cc6a1d592d17d52 lib/tinyobj/CMakeFiles/uninstall
