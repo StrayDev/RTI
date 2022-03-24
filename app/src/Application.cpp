@@ -64,21 +64,23 @@ void Application::run()
 	std::cout << "X ?? : " << MVP[0][0] + MVP[1][0] + MVP[2][0] + MVP[3][0] << '\n';
 	std::cout << "Before  : " << bunny_1->triangles[0].GetVertices().begin()->x() << '\n';*/
 
-/*	for (auto& t : bunny_1->triangles)
+	//auto vec = glm::vec4(translation * glm::vec4(v.x(), v.y(), v.z(), 0.0f));
+	std::cout << "before : " << bunny_1->triangles[0].GetVertices().begin()->x() << '\n';
+
+	for (auto& t : bunny_1->triangles)
 	{
 		for (auto& v : t.GetVertices())
 		{
-			auto vec = glm::vec4(translation * glm::vec4(v.x(), v.y(), v.z(), 0.0f));
-			v.value[0] += vec[0];
-			v.value[1] += vec[1];
-			v.value[2] += vec[2];
+			v.value[0] += .01f;
+			v.value[1] += .01f;
+			v.value[2] += .01f;
 		}
-	}*/
+	}
 
-	//std::cout << "After  : " << bunny_1->triangles[0].GetVertices().begin()->x() << '\n';
+	std::cout << "After  : " << bunny_1->triangles[0].GetVertices().begin()->x() << '\n';
 
 	/// create the camera
-	auto camera = Camera(Vector3{ 0, 2, 3 }, Vector3{ 0, 0, 1 });/// direction not in yet
+	auto camera = Camera(Vector3{ 0, 1, 2 }, Vector3{ 0, 0, 1 });/// direction not in yet
 
 	/// render methods
 	//RenderBasic(triList, camera);

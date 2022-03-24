@@ -23,11 +23,11 @@ public:
 
 public:
 	bool hit(const Ray& ray, Hit& hit);
-	AABB CreateAABB();
+	AABB CreateAABB() const;
 
-	inline const AABB& GetAABB() const { return bounding_box; }
-	inline Vertices& GetVertices() { return vertices; }
-	inline Normals& GetNormals() { return normals; }
+	inline const AABB& GetAABB() const { return CreateAABB(); }
+	Vertices& GetVertices() { return vertices; }
+	Normals& GetNormals() { return normals; }
 	inline Vector3 GetFaceNormal();
 	inline Vector3 GetHitNormal(double u, double v);
 

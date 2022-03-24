@@ -24,6 +24,6 @@ private:
 	void DrawBackground(std::ofstream& file, int i, int j);
 
 private:
-	const int screen_width = 1920 / 4;
-	const int screen_height = 1080 / 4;
+	const int screen_width = 1920/2;
+	const int screen_height = 1080/2;
 };

@@ -12,7 +12,8 @@ bool Tri::hit(const Ray& ray, Hit& hit)
 	auto h = Vector3::cross(ray.getDirection(), edge2);
 	auto a = Vector3::dot(edge1, h);
 
-	if (a > -epsilon && a < epsilon) return false;
+	if (/*a > -epsilon &&*/ a < epsilon) return false; // back face culling
+	if (fabs(a) < epsilon) return false; // check for parallel surface
 
 	auto f = 1.0 / a;
 	auto s = ray.getOrigin() - vertices[0];
@@ -27,7 +28,7 @@ bool Tri::hit(const Ray& ray, Hit& hit)
 
 	auto t = f * Vector3::dot(edge2, q);
 
-	if (t > epsilon && t < hit.t)
+	if (t > epsilon /*&& t < hit.t*/)
 	{
 		hit.t = t;
 		hit.point = ray.getOrigin() + ray.getDirection() * t;
@@ -37,7 +38,7 @@ bool Tri::hit(const Ray& ray, Hit& hit)
 	return false;
 }
 
-AABB Tri::CreateAABB()/// this seems really slow
+AABB Tri::CreateAABB() const/// this seems really slow
 {
 	auto small = Vector3{
 		fmin(vertices[0].x(), fmin(vertices[1].x(), vertices[2].x())),
