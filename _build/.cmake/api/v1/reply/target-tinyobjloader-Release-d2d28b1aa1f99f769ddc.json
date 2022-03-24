@@ -1,18 +1,9 @@
 {
-	"archive" : 
-	{
-		"commandFragments" : 
-		[
-			{
-				"fragment" : "/machine:X86",
-				"role" : "flags"
-			}
-		]
-	},
+	"archive" : {},
 	"artifacts" : 
 	[
 		{
-			"path" : "lib/tinyobj/tinyobjloader.lib"
+			"path" : "lib/tinyobj/libtinyobjloader.a"
 		}
 	],
 	"backtrace" : 1,
@@ -63,17 +54,17 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd"
+					"fragment" : "-O3 -DNDEBUG"
 				},
 				{
-					"fragment" : "-std:c++20"
+					"fragment" : "-std=gnu++2a"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 4,
-					"path" : "C:/Users/steve/Desktop/RTI/app/include"
+					"path" : "F:/Dev/RTI/app/include"
 				}
 			],
 			"language" : "CXX",
@@ -107,7 +98,7 @@
 		}
 	},
 	"name" : "tinyobjloader",
-	"nameOnDisk" : "tinyobjloader.lib",
+	"nameOnDisk" : "libtinyobjloader.a",
 	"paths" : 
 	{
 		"build" : "lib/tinyobj",

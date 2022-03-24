@@ -38,7 +38,7 @@ bool Tri::hit(const Ray& ray, Hit& hit)
 	return false;
 }
 
-AABB Tri::CreateAABB() const/// this seems really slow
+AABB Tri::GetBounds() const/// this seems really slow
 {
 	auto small = Vector3{
 		fmin(vertices[0].x(), fmin(vertices[1].x(), vertices[2].x())),

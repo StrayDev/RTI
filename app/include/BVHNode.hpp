@@ -77,10 +77,10 @@ void BVHNode::makeLeaf(const std::vector<Tri>& triangleList)
 void BVHNode::CreateBounds(const std::vector<Tri>& triangleList)
 {
 	/// create bounding box for all the triangles in the list
-	bounds = triangleList.back().GetAABB();
+	bounds = triangleList.back().GetBounds();
 	for (auto t : triangleList)
 	{
-		bounds = AABB::MergeBounds(bounds, t.GetAABB());
+		bounds = AABB::MergeBounds(bounds, t.GetBounds());
 	}
 }
 
@@ -110,7 +110,7 @@ BVHNode::leftRightSplit BVHNode::CreateSplitLists(int axis, const std::vector<Tr
 	/// check if the mid position is greater or lower than the mid point
 	for (auto tri : list)
 	{
-		auto triMidpoint = tri.GetAABB().midpoint().value[axis];
+		auto triMidpoint = tri.GetBounds().midpoint().value[axis];
 
 		if (triMidpoint <= midpoint - epsilon)
 		{
@@ -166,13 +166,13 @@ BVHNode::leftRightSplit BVHNode::CreateSplitListsSAH(int axis, const std::vector
 	for (auto tri : list)
 	{
 		/// Sections the triangles into buckets based on their offset from the min point of the AAbb
-		int b = num_segments * bounds.offset(tri.GetAABB().midpoint()).value[axis];
+		int b = num_segments * bounds.offset(tri.GetBounds().midpoint()).value[axis];
 		if (b == num_segments)
 		{
 			b = num_segments - 1;
 		}
 		segment_list[b].count++;
-		segment_list[b].bounds = AABB::MergeBounds(segment_list[b].bounds, tri.GetAABB());
+		segment_list[b].bounds = AABB::MergeBounds(segment_list[b].bounds, tri.GetBounds());
 	}
 
 	/// todo : Compute costs for splitting after each bucket
@@ -217,7 +217,7 @@ BVHNode::leftRightSplit BVHNode::CreateSplitListsSAH(int axis, const std::vector
 	/// todo : split primitives into left and right lists
 	for(auto tri : list)
 	{
-		int segment = num_segments * bounds.offset(tri.GetAABB().midpoint()).value[axis];
+		int segment = num_segments * bounds.offset(tri.GetBounds().midpoint()).value[axis];
 		if (segment == num_segments) segment = num_segments - 1;
 		if(segment <= best_segment)
 		{

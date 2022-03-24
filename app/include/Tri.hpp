@@ -15,17 +15,17 @@ public:
 	using Vertices = std::array<Vector3, 3>;
 
 public:
-	Tri(Vertices v, Normals n) : vertices(v), normals(n)
-	{
-		bounding_box = CreateAABB();
-	}
+	Tri(Vertices v, Normals n) : vertices(v), normals(n) {}
+/*	{
+		bounding_box = GetBounds();
+	}*/
 	~Tri() = default;
 
 public:
 	bool hit(const Ray& ray, Hit& hit);
-	AABB CreateAABB() const;
+	AABB GetBounds() const;
 
-	inline const AABB& GetAABB() const { return CreateAABB(); }
+	//inline const AABB GetAABB() const { return GetBounds(); }
 	Vertices& GetVertices() { return vertices; }
 	Normals& GetNormals() { return normals; }
 	inline Vector3 GetFaceNormal();

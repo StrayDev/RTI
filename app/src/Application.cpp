@@ -71,7 +71,7 @@ void Application::run()
 	{
 		for (auto& v : t.GetVertices())
 		{
-			v.value[0] += .01f;
+			v.value[0] += 1.0f;
 			v.value[1] += .01f;
 			v.value[2] += .01f;
 		}
@@ -157,7 +157,7 @@ void Application::RenderBasic(const std::vector<Tri>& tri_list, const Camera& ca
 	/// this will be removed
 	for (auto tri : tri_list)
 	{
-		bounding_box = AABB::MergeBounds(bounding_box, tri.GetAABB());
+		bounding_box = AABB::MergeBounds(bounding_box, tri.GetBounds());
 	}
 
 	/// render : for each pixel

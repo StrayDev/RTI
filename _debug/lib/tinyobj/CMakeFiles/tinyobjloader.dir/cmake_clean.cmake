@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/tinyobjloader.dir/tiny_obj_loader.cc.obj"
   "CMakeFiles/tinyobjloader.dir/tiny_obj_loader.cc.obj.d"
-  "tinyobjloader.lib"
-  "tinyobjloader.pdb"
+  "libtinyobjloader.a"
+  "libtinyobjloader.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

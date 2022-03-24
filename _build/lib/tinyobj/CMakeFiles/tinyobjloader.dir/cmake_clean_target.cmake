@@ -1,3 +1,3 @@
 file(REMOVE_RECURSE
-  "tinyobjloader.lib"
+  "libtinyobjloader.a"
 )
