@@ -45,14 +45,14 @@ unset(_expectedTargets)
 add_library(tinyobjloader STATIC IMPORTED)
 
 set_target_properties(tinyobjloader PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "F:/Dev/RTI/lib/tinyobj"
+  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/steve/Desktop/RTI/lib/tinyobj"
 )
 
 # Import target "tinyobjloader" for configuration "Debug"
 set_property(TARGET tinyobjloader APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(tinyobjloader PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "CXX"
-  IMPORTED_LOCATION_DEBUG "F:/Dev/RTI/_debug/lib/tinyobj/libtinyobjloader.a"
+  IMPORTED_LOCATION_DEBUG "C:/Users/steve/Desktop/RTI/_debug/lib/tinyobj/tinyobjloader.lib"
   )
 
 # This file does not depend on other imported targets which have

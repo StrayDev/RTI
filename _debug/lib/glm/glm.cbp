@@ -4,39 +4,39 @@
 	<Project>
 		<Option title="glm"/>
 		<Option makefile_is_custom="1"/>
-		<Option compiler="gcc"/>
+		<Option compiler="msvc8"/>
 		<Option virtualFolders="CMake Files\;CMake Files\lib\;CMake Files\lib\tinyobj\;CMake Files\lib\glm\;CMake Files\lib\glm\glm\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="F:/Dev/RTI/_debug/lib/glm"/>
+				<Option working_dir="C:/Users/steve/Desktop/RTI/_debug/lib/glm"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;F:/Dev/RTI/_debug/lib/glm/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;F:/Dev/RTI/_debug/lib/glm/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;F:/Dev/RTI/_debug/lib/glm/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;F:/Dev/RTI/_debug/lib/glm/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="nmake /NOLOGO /f C:\Users\steve\Desktop\RTI\_debug\lib\glm\Makefile VERBOSE=1 all"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\steve\Desktop\RTI\_debug\lib\glm\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\steve\Desktop\RTI\_debug\lib\glm\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\steve\Desktop\RTI\_debug\lib\glm\Makefile VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="F:/Dev/RTI/CMakeLists.txt">
+		<Unit filename="C:/Users/steve/Desktop/RTI/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="F:/Dev/RTI/lib/tinyobj/CMakeLists.txt">
+		<Unit filename="C:/Users/steve/Desktop/RTI/lib/tinyobj/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\lib\tinyobj\"/>
 		</Unit>
-		<Unit filename="F:/Dev/RTI/lib/tinyobj/cmake_uninstall.cmake.in">
+		<Unit filename="C:/Users/steve/Desktop/RTI/lib/tinyobj/cmake_uninstall.cmake.in">
 			<Option virtualFolder="CMake Files\lib\tinyobj\"/>
 		</Unit>
-		<Unit filename="F:/Dev/RTI/lib/tinyobj/tinyobjloader-config.cmake.in">
+		<Unit filename="C:/Users/steve/Desktop/RTI/lib/tinyobj/tinyobjloader-config.cmake.in">
 			<Option virtualFolder="CMake Files\lib\tinyobj\"/>
 		</Unit>
-		<Unit filename="F:/Dev/RTI/lib/tinyobj/tinyobjloader.pc.in">
+		<Unit filename="C:/Users/steve/Desktop/RTI/lib/tinyobj/tinyobjloader.pc.in">
 			<Option virtualFolder="CMake Files\lib\tinyobj\"/>
 		</Unit>
-		<Unit filename="F:/Dev/RTI/lib/glm/CMakeLists.txt">
+		<Unit filename="C:/Users/steve/Desktop/RTI/lib/glm/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\lib\glm\"/>
 		</Unit>
-		<Unit filename="F:/Dev/RTI/lib/glm/glm/CMakeLists.txt">
+		<Unit filename="C:/Users/steve/Desktop/RTI/lib/glm/glm/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\lib\glm\glm\"/>
 		</Unit>
 	</Project>

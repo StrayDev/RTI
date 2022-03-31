@@ -9,16 +9,9 @@
 #include "tiny_obj_loader.h"
 
 #include "glm/mat4x4.hpp"
+#include "Object.hpp"
 
 using namespace tinyobj;
-
-struct Object
-{
-public:
-	AABB aabb;
-	glm::mat4x4 transform ;
-	std::vector<Tri> triangles;
-};
 
 class ObjLoader
 {

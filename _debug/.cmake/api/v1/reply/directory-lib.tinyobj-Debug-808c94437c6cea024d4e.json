@@ -60,7 +60,7 @@
 			"destination" : "lib",
 			"paths" : 
 			[
-				"lib/tinyobj/libtinyobjloader.a"
+				"lib/tinyobj/tinyobjloader.lib"
 			],
 			"targetId" : "tinyobjloader::@14aba6d558ae1466aa44",
 			"targetIndex" : 1,

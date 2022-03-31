@@ -21,7 +21,7 @@ add_executable(RTI main.cpp
         app/src/Tri.cpp
         app/include/AABB.hpp
         app/src/AABB.cpp
-        app/include/BVHNode.hpp)
+        app/include/BVHNode.hpp app/include/Object.hpp)
 
 ## add subdirectories
 include_directories(${CMAKE_SOURCE_DIR}/app/include)

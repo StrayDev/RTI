@@ -58,25 +58,25 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-O3 -DNDEBUG"
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -MD"
 				},
 				{
-					"fragment" : "-std=gnu++2a"
+					"fragment" : "-std:c++20"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 3,
-					"path" : "F:/Dev/RTI/app/include"
+					"path" : "C:/Users/steve/Desktop/RTI/app/include"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "F:/Dev/RTI/lib/tinyobj"
+					"path" : "C:/Users/steve/Desktop/RTI/lib/tinyobj"
 				},
 				{
 					"backtrace" : 4,
-					"path" : "F:/Dev/RTI/lib/glm"
+					"path" : "C:/Users/steve/Desktop/RTI/lib/glm"
 				}
 			],
 			"language" : "CXX",
@@ -111,20 +111,20 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-O3 -DNDEBUG",
+				"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -MD",
 				"role" : "flags"
 			},
 			{
-				"fragment" : "-static",
+				"fragment" : "-static /INCREMENTAL:NO /subsystem:console",
 				"role" : "flags"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "lib\\tinyobj\\libtinyobjloader.a",
+				"fragment" : "lib\\tinyobj\\tinyobjloader.lib",
 				"role" : "libraries"
 			},
 			{
-				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
 				"role" : "libraries"
 			}
 		],
@@ -165,7 +165,8 @@
 				11,
 				12,
 				14,
-				16
+				16,
+				17
 			]
 		}
 	],
@@ -259,6 +260,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "app/include/BVHNode.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "app/include/Object.hpp",
 			"sourceGroupIndex" : 1
 		}
 	],

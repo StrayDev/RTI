@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "F:/Dev/RTI/lib/tinyobj/tiny_obj_loader.cc" "lib/tinyobj/CMakeFiles/tinyobjloader.dir/tiny_obj_loader.cc.obj" "gcc" "lib/tinyobj/CMakeFiles/tinyobjloader.dir/tiny_obj_loader.cc.obj.d"
+  "C:/Users/steve/Desktop/RTI/lib/tinyobj/tiny_obj_loader.cc" "lib/tinyobj/CMakeFiles/tinyobjloader.dir/tiny_obj_loader.cc.obj" "msvc" "lib/tinyobj/CMakeFiles/tinyobjloader.dir/tiny_obj_loader.cc.obj.d"
   )
 
 # Targets to which this target links.

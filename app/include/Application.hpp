@@ -20,6 +20,7 @@ private:
 
 	void RenderBasic(const std::vector<Tri>& tri_list, const Camera& camera);
 	void RenderBVH(const Camera& camera, const std::vector<Tri>& triList);
+	void renderBvhMultithreaded(const Camera& camera, const std::vector<Tri>& triList);
 
 	void DrawBackground(std::ofstream& file, int i, int j);
 
