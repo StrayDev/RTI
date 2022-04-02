@@ -11,8 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/RTI.dir/main.cpp.obj.d"
   "RTI.exe"
   "RTI.exe.manifest"
-  "RTI.lib"
   "RTI.pdb"
+  "libRTI.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

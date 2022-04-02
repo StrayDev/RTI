@@ -20,11 +20,11 @@ private:
 
 	void RenderBasic(const std::vector<Tri>& tri_list, const Camera& camera);
 	void RenderBVH(const Camera& camera, const std::vector<Tri>& triList);
-	void renderBvhMultithreaded(const Camera& camera, const std::vector<Tri>& triList);
+	void RenderBVHThreaded(const Camera& camera, const std::vector<Tri>& triList);
 
 	void DrawBackground(std::ofstream& file, int i, int j);
 
 private:
-	const int screen_width = 1920/2;
-	const int screen_height = 1080/2;
+	const int screen_width = 1920/1.5;
+	const int screen_height = 1080/1.5;
 };
