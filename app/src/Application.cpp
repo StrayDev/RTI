@@ -18,6 +18,7 @@
 #include <chrono>
 #include <fstream>
 #include <iomanip>
+#include <future>
 
 /// unique_ptr constructor replacement
 std::unique_ptr<Application> Application::Create()
@@ -69,41 +70,73 @@ void Application::RenderBVHThreaded(const Camera& camera, const std::vector<Tri>
 
 	/// create the buffer
 	int channels = sizeof(unsigned char) * 3;
-	auto buffer = std::unique_ptr<unsigned char[]>(new unsigned char[(screen_width * screen_height) * channels]);
+	auto buffer = std::shared_ptr<unsigned char[]>(new unsigned char[(screen_width * screen_height) * channels]);
+	auto b = buffer.get();
 
 	/// render : for each pixel
-	for (int j = screen_height - 1; j > -1; j--)
+	size_t max = screen_width * screen_height;
+	auto cores = std::thread::hardware_concurrency();
+	volatile std::atomic<std::size_t> count(0);
+	std::vector<std::future<void>> future_vector;
+
+	while (cores--)
+	{
+		future_vector.emplace_back( std::async([=, &root_node, &count]()
+						   {
+							   while (true)
+							   {
+								   size_t index = count++;
+								   if (index >= max) break;
+
+								   size_t x = index % screen_width;
+								   size_t y = index / screen_width;
+
+								   RenderPixel(x, y, root_node, camera, b);
+							   }
+						   }));
+	}
+
+/*	for (int j = screen_height - 1; j > -1; j--)
 	{
 		for (auto i = 0; i < screen_width; ++i)
 		{
-			/// get ray direction
-			auto u = static_cast<double>(i) / (screen_width - 1);
-			auto v = static_cast<double>(j) / (screen_height - 1);
-
-			/// if the ray intersects the triangle
-			auto ray = Ray(camera.position, camera.GetDirectionFromUV(u, v));
-			auto hit = Hit();
-
-			/// navigate bvh
-			root_node.hit(ray, hit);
-
-			/// access the pixel like a 2d grid inverting the y
-			auto pixel = (screen_height - 1 - j) * screen_width + i;
-			auto pixel_idx = pixel * channels;
-
-			if (hit.t < infinity)
-			{
-				WritePixel(buffer.get(), pixel_idx, hit.color);
-				continue;
-			}
-			/// background
-			auto background = Vector3((double)j / screen_height, (double)i / screen_width, 0.25);
-			WritePixel(buffer.get(), pixel_idx, background);
+			RenderPixel(i, j, root_node, camera, buffer.get());
 		}
-	}
-
+	}*/
+	/// write the png
 	stbi_write_png("image.png", screen_width, screen_height, channels, buffer.get(), screen_width * channels);
 }
+
+void Application::RenderPixel(int i, int j, BVHNode& root, const Camera& camera, unsigned char* buffer)
+{
+	int channels = sizeof(unsigned char) * 3;
+
+	/// get ray direction
+	auto u = static_cast<double>(i) / (screen_width - 1);
+	auto v = static_cast<double>(j) / (screen_height - 1);
+
+	/// if the ray intersects the triangle
+	auto ray = Ray(camera.position, camera.GetDirectionFromUV(u, v));
+	auto hit = Hit();
+
+	/// navigate bvh
+	root.hit(ray, hit);
+
+	/// access the pixel like a 2d grid inverting the y
+	auto pixel = (screen_height - 1 - j) * screen_width + i;
+	auto pixel_idx = pixel * channels;
+
+	/// render object
+	if (hit.t < infinity)
+	{
+		WritePixel(buffer, pixel_idx, hit.color);
+		return;
+	}
+	/// background
+	auto background = Vector3((double)j / screen_height, (double)i / screen_width, 0.25);
+	WritePixel(buffer, pixel_idx, background);
+}
+
 
 void Application::RenderBVH(const Camera& camera, const std::vector<Tri>& triList)
 {

@@ -1,10 +1,12 @@
 #pragma once
 #include <memory>
 #include <vector>
+
 #include "Vector3.hpp"
 
 class Tri;
 class Camera;
+class BVHNode;
 
 class Application
 {
@@ -23,6 +25,7 @@ private:
 	void RenderBVH(const Camera& camera, const std::vector<Tri>& triList);
 	void RenderBVHThreaded(const Camera& camera, const std::vector<Tri>& triList);
 
+	void RenderPixel(int i, int j, BVHNode& root, const Camera& camera, unsigned char* buffer);
 	void WritePixel(unsigned char* buffer, int pixel, Vector3& colour);
 	void DrawBackground(std::ofstream& file, int i, int j);
 
