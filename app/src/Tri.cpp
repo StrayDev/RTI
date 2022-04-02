@@ -12,7 +12,7 @@ bool Tri::hit(const Ray& ray, Hit& hit)
 	auto h = Vector3::cross(ray.getDirection(), edge2);
 	auto a = Vector3::dot(edge1, h);
 
-	if (/*a > -epsilon &&*/ a < epsilon) return false; // back face culling
+	if (a < epsilon) return false; // back face culling
 	if (fabs(a) < epsilon) return false; // check for parallel surface
 
 	auto f = 1.0 / a;

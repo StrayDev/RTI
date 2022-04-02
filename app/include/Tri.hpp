@@ -16,9 +16,6 @@ public:
 
 public:
 	Tri(Vertices v, Normals n) : vertices(v), normals(n) {}
-/*	{
-		bounding_box = GetBounds();
-	}*/
 	~Tri() = default;
 
 public:

@@ -14,6 +14,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
+#include <algorithm>
 #include <chrono>
 #include <fstream>
 #include <iomanip>
@@ -35,15 +36,14 @@ void Application::run()
 {
 	/// start timer
 	auto start = std::chrono::high_resolution_clock::now();
-
 	/// testing import of tiny obj
 	auto objloader = ObjLoader();
 	objloader.LoadObj("bunny.obj", "bunny");
 	auto bunny_1 = objloader.CreateObject("bunny");
 	auto bunny_2 = objloader.CreateObject("bunny");
 
-	bunny_1->SetPosition({1,0,0});
-	bunny_2->SetPosition({-1,0,0});
+	bunny_1->SetPosition({ 1, 0, 0 });
+	bunny_2->SetPosition({ -1, 0, 0 });
 
 	/// create the camera
 	auto camera = Camera(Vector3{ 0, 1, 2 }, Vector3{ 0, 0, 1 });/// direction not in yet
@@ -67,21 +67,13 @@ void Application::RenderBVHThreaded(const Camera& camera, const std::vector<Tri>
 	/// build the BVH
 	auto root_node = BVHNode(triList);
 
-	/// Create file
-	auto file = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
-	file << "P3\n"
-		 << screen_width << " " << screen_height << "\n255\n";
-
-	/// create the pixel buffer
-	auto* pixel_data = new unsigned char[(screen_width * screen_height) * 3];
+	/// create the buffer
+	int channels = sizeof(unsigned char) * 3;
+	auto buffer = std::unique_ptr<unsigned char[]>(new unsigned char[(screen_width * screen_height) * channels]);
 
 	/// render : for each pixel
-	for (int j = 0; j < screen_height; j++)
-	//for (int j = screen_height; j > -1; --j)
+	for (int j = screen_height - 1; j > -1; j--)
 	{
-		//std::cout << j << '\n';
-		//std::cerr << "\r Lines remaining : " << std::setfill('0') << std::setw(4) << j << std::flush;
-
 		for (auto i = 0; i < screen_width; ++i)
 		{
 			/// get ray direction
@@ -95,32 +87,22 @@ void Application::RenderBVHThreaded(const Camera& camera, const std::vector<Tri>
 			/// navigate bvh
 			root_node.hit(ray, hit);
 
-			auto pixel = j * screen_width + i;
-			//std::cout << pixel << '\n';
+			/// access the pixel like a 2d grid inverting the y
+			auto pixel = (screen_height - 1 - j) * screen_width + i;
+			auto pixel_idx = pixel * channels;
 
 			if (hit.t < infinity)
 			{
-				/// colour from normals
-				pixel_data[pixel * 3]     = static_cast<unsigned char>(255.999 * hit.color.x());
-				pixel_data[pixel * 3 + 1] = static_cast<unsigned char>(255.999 * hit.color.y());
-				pixel_data[pixel * 3 + 2] = static_cast<unsigned char>(255.999 * hit.color.z());
+				WritePixel(buffer.get(), pixel_idx, hit.color);
 				continue;
 			}
-			pixel_data[pixel * 3]    = static_cast<unsigned char>(255.999);
-			pixel_data[pixel * 3 + 1]= static_cast<unsigned char>(0);
-			pixel_data[pixel * 3 + 2]= static_cast<unsigned char>(0);
-			//DrawBackground(file, i, j);
+			/// background
+			auto background = Vector3((double)j / screen_height, (double)i / screen_width, 0.25);
+			WritePixel(buffer.get(), pixel_idx, background);
 		}
 	}
 
-/*	for(int i = 0; i < screen_width * screen_height; i++)
-	{
-		pixel_data[i * 3] = static_cast<char>(255.999);
-		pixel_data[i * 3 + 1] = static_cast<char>(0);
-		pixel_data[i * 3 + 2] = static_cast<char>(0);
-	}*/
-
-	stbi_write_png("image.png", screen_width, screen_height, 3, pixel_data, screen_width * 3 );
+	stbi_write_png("image.png", screen_width, screen_height, channels, buffer.get(), screen_width * channels);
 }
 
 void Application::RenderBVH(const Camera& camera, const std::vector<Tri>& triList)
@@ -162,9 +144,7 @@ void Application::RenderBVH(const Camera& camera, const std::vector<Tri>& triLis
 				{
 					std::cout << "NaN\n";
 				}
-
 				file << ir << ' ' << ig << ' ' << ib << '\n';
-
 				continue;
 			}
 
@@ -226,11 +206,7 @@ void Application::RenderBasic(const std::vector<Tri>& tri_list, const Camera& ca
 				int ir = static_cast<int>(255.999 * hit.color.x());
 				int ig = static_cast<int>(255.999 * hit.color.y());
 				int ib = static_cast<int>(255.999 * hit.color.z());
-				/*				if (hit.color.x() != hit.color.x() || hit.color.y() != hit.color.y() || hit.color.z() != hit.color.z())
-				{
-				}*/
 				file << ir << ' ' << ig << ' ' << ib << '\n';
-				//file << 50 << ' ' << 10 << ' ' << 10 << '\n';
 			}
 			else
 			{
@@ -253,4 +229,16 @@ void Application::DrawBackground(std::ofstream& file, int i, int j)
 	int ib = static_cast<int>(255.999 * b);
 
 	file << ir << ' ' << ig << ' ' << ib << '\n';
+}
+
+void Application::WritePixel(unsigned char* buffer, int pixel, Vector3& colour)
+{
+	int r = std::clamp(static_cast<int>(255.999 * colour.x()), 0, 255);
+	int g = std::clamp(static_cast<int>(255.999 * colour.y()), 0, 255);
+	int b = std::clamp(static_cast<int>(255.999 * colour.z()), 0, 255);
+
+	/// colour from normals
+	buffer[pixel + 0] = r;
+	buffer[pixel + 1] = g;
+	buffer[pixel + 2] = b;
 }
