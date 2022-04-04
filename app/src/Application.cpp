@@ -17,8 +17,8 @@
 #include <algorithm>
 #include <chrono>
 #include <fstream>
-#include <iomanip>
 #include <future>
+#include <iomanip>
 
 /// unique_ptr constructor replacement
 std::unique_ptr<Application> Application::Create()
@@ -71,38 +71,41 @@ void Application::RenderBVHThreaded(const Camera& camera, const std::vector<Tri>
 	/// create the buffer
 	int channels = sizeof(unsigned char) * 3;
 	auto buffer = std::shared_ptr<unsigned char[]>(new unsigned char[(screen_width * screen_height) * channels]);
-	auto b = buffer.get();
 
-	/// render : for each pixel
-	size_t max = screen_width * screen_height;
-	auto cores = std::thread::hardware_concurrency();
-	volatile std::atomic<std::size_t> count(0);
+	/// multithreading set up
+	auto cores = std::thread::hardware_concurrency() - 1;
 	std::vector<std::future<void>> future_vector;
+	future_vector.reserve(cores);
 
-	while (cores--)
+	auto bucket = screen_height * screen_width / cores;
+
+	std::cout << "Cores : " << cores << '\n';
+	std::cout << bucket << '\n';
+
+	/// create the job
+	auto job = [=, &root_node, &buffer](int start, const Camera& cam)
 	{
-		future_vector.emplace_back( std::async([=, &root_node, &count]()
-						   {
-							   while (true)
-							   {
-								   size_t index = count++;
-								   if (index >= max) break;
+		for (size_t index = start; index < start + bucket; index++)
+		{
+			int x = static_cast<int>(index) % screen_width;
+			int y = static_cast<int>(index) / screen_width;
+			RenderPixel(x, y, root_node, cam, buffer.get());
+		}
+	};
 
-								   size_t x = index % screen_width;
-								   size_t y = index / screen_width;
-
-								   RenderPixel(x, y, root_node, camera, b);
-							   }
-						   }));
+	/// loop through each available core
+	for (size_t i = 0; i < cores; ++i)
+	{
+		auto start = bucket * i;
+		future_vector.emplace_back(std::async(job, start, camera));
 	}
 
-/*	for (int j = screen_height - 1; j > -1; j--)
+	/// wait for all the jobs to finish
+	for(auto& f : future_vector)
 	{
-		for (auto i = 0; i < screen_width; ++i)
-		{
-			RenderPixel(i, j, root_node, camera, buffer.get());
-		}
-	}*/
+		f.wait();
+	}
+
 	/// write the png
 	stbi_write_png("image.png", screen_width, screen_height, channels, buffer.get(), screen_width * channels);
 }
