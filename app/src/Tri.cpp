@@ -28,7 +28,7 @@ bool Tri::hit(const Ray& ray, Hit& hit)
 
 	auto t = f * Vector3::dot(edge2, q);
 
-	if (t > epsilon /*&& t < hit.t*/)
+	if (t > epsilon && t < hit.t) //  necessary : t < hit.t
 	{
 		hit.t = t;
 		hit.point = ray.getOrigin() + ray.getDirection() * t;
