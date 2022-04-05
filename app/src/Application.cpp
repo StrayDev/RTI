@@ -38,23 +38,23 @@ void Application::run()
 	objloader.LoadObj("bunny.obj", "bunny");
 	auto bunny_1 = objloader.CreateObject("bunny");
 
-	objloader.LoadObj("Cube.obj", "cube");
-	auto cube = objloader.CreateObject("cube");
-	auto cube2 = objloader.CreateObject("cube");
-	auto cube3 = objloader.CreateObject("cube");
+	//objloader.LoadObj("Cube.obj", "cube");
+	//auto cube = objloader.CreateObject("cube");
+	//auto cube2 = objloader.CreateObject("cube");
+	//auto cube3 = objloader.CreateObject("cube");
 
 	bunny_1->SetPosition({ .1, 0, 0 });
-	cube->SetPosition( { 0, -1.1, 0 });
-	cube2->SetPosition({1.999, -.5,.01});
-	cube3->SetPosition({-1.8, -.2,.001});
+	//cube->SetPosition( { 0, -1.1, 0 });
+	//cube2->SetPosition({1.999, -.5,.01});
+	//cube3->SetPosition({-1.8, -.2,.001});
 
 	/// create the camera
 	auto camera = Camera(Vector3{ 0, 1, 2 }, Vector3{ 0, 0, 1 });  /// direction not in yet
 
 	std::vector<Tri> triangle_list = bunny_1->triangles;
-	triangle_list.insert(triangle_list.end(), cube->triangles.begin(), cube->triangles.end());
-	triangle_list.insert(triangle_list.end(), cube2->triangles.begin(), cube2->triangles.end());
-	triangle_list.insert(triangle_list.end(), cube3->triangles.begin(), cube3->triangles.end());
+	//triangle_list.insert(triangle_list.end(), cube->triangles.begin(), cube->triangles.end());
+	//triangle_list.insert(triangle_list.end(), cube2->triangles.begin(), cube2->triangles.end());
+	//triangle_list.insert(triangle_list.end(), cube3->triangles.begin(), cube3->triangles.end());
 
 
 	/// render methods
@@ -84,6 +84,7 @@ void Application::RenderBVHThreaded(const Camera& camera, const std::vector<Tri>
 	auto bucket = screen_height * screen_width / cores;
 
 	/// todo : change this to segment into squares and reassign cores to them
+	auto samples = 32;
 
 	/// create the job
 	auto job = [=, &root_node, &buffer](int start)
@@ -91,8 +92,14 @@ void Application::RenderBVHThreaded(const Camera& camera, const std::vector<Tri>
 		for (size_t index = start; index < start + bucket; index++)
 		{
 			int x = static_cast<int>(index % screen_width);
-			int y = static_cast<int>(index) / screen_width;
-			RenderPixel(x, y, root_node, camera, buffer.get());
+			int y = static_cast<int>(index / screen_width);
+
+			/// always do at least 1 sample
+			RenderPixel(x, y, samples, root_node, camera, buffer.get());
+			for(auto s = samples; s > 1; --s)
+			{
+				RenderPixel(x, y, samples, root_node, camera, buffer.get());
+			}
 		}
 	};
 
@@ -113,13 +120,12 @@ void Application::RenderBVHThreaded(const Camera& camera, const std::vector<Tri>
 	stbi_write_png("image.png", screen_width, screen_height, channels, buffer.get(), screen_width * channels);
 }
 
-void Application::RenderPixel(int i, int j, BVHNode& root, const Camera& camera, unsigned char* buffer)
+void Application::RenderPixel(int i, int j, int samples, BVHNode& root, const Camera& camera, unsigned char* buffer)
 {
 	int channels = sizeof(unsigned char) * 3;
 
-	/// get ray direction
-	auto u = static_cast<double>(i) / (screen_width - 1);
-	auto v = static_cast<double>(j) / (screen_height - 1);
+	auto u = (static_cast<double>(i) + RandomDouble()) / (screen_width - 1);
+	auto v = (static_cast<double>(j) + RandomDouble()) / (screen_height - 1);
 
 	/// if the ray intersects the triangle
 	auto ray = Ray(camera.position, camera.GetDirectionFromUV(u, v));
@@ -135,12 +141,12 @@ void Application::RenderPixel(int i, int j, BVHNode& root, const Camera& camera,
 	/// render object
 	if (hit.t < infinity)
 	{
-		WritePixel(buffer, pixel_idx, hit.color);
+		WritePixel(buffer, pixel_idx, hit.color, samples);
 		return;
 	}
 	/// background
 	auto background = Vector3((double)j / screen_height, (double)i / screen_width, 0.25);
-	WritePixel(buffer, pixel_idx, background);
+	WritePixel(buffer, pixel_idx,background, samples);
 }
 
 
@@ -158,7 +164,7 @@ void Application::RenderBVH(const Camera& camera, const std::vector<Tri>& triLis
 	{
 		for (auto i = 0; i < screen_width; ++i)
 		{
-			RenderPixel(i, j, root_node, camera, buffer.get());
+			RenderPixel(i, j, 1, root_node, camera, buffer.get());
 		}
 	}
 
@@ -243,14 +249,26 @@ void Application::DrawBackground(std::ofstream& file, int i, int j)
 	file << ir << ' ' << ig << ' ' << ib << '\n';
 }
 
-void Application::WritePixel(unsigned char* buffer, int pixel, Vector3& colour)
+void Application::WritePixel(unsigned char* buffer, int pixel, Vector3& colour, int samples)
 {
-	int r = std::clamp(static_cast<int>(255.999 * colour.x()), 0, 255);
-	int g = std::clamp(static_cast<int>(255.999 * colour.y()), 0, 255);
-	int b = std::clamp(static_cast<int>(255.999 * colour.z()), 0, 255);
+	/// get the colours
+	auto r = colour.x();
+	auto g = colour.y();
+	auto b = colour.z();
 
-	/// colour from normals
-	buffer[pixel + 0] = r;
-	buffer[pixel + 1] = g;
-	buffer[pixel + 2] = b;
+	/// scale by sample size
+	auto scale = 1.0 / samples;
+	r *= scale;
+	g *= scale;
+	b *= scale;
+
+	/// write correct colour values
+	auto ir = static_cast<int>(256 * std::clamp(r, 0.0, 1 - epsilon));
+	auto ig = static_cast<int>(256 * std::clamp(g, 0.0, 1 - epsilon));
+	auto ib = static_cast<int>(256 * std::clamp(b, 0.0, 1 - epsilon));
+
+	/// write to buffer
+	buffer[pixel + 0] += static_cast<char>(ir);
+	buffer[pixel + 1] += static_cast<char>(ig);
+	buffer[pixel + 2] += static_cast<char>(ib);
 }

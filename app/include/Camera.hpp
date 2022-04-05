@@ -16,8 +16,9 @@ public:
 	const Vector3 position;
 	const Vector3 direction; // not currently used
 
+	const double aspect_ratio = 16.0 / 9.0;
 	const double viewport_height = 2.f;
-	const double viewport_width = (16.f / 9.f) * viewport_height;
+	const double viewport_width = aspect_ratio * viewport_height;
 	const double focal_length = 1.f;
 	const double fov = 80.f;
 
